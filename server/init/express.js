@@ -8,6 +8,7 @@ import flash from 'express-flash';
 import methodOverride from 'method-override';
 import gzip from 'compression';
 import helmet from 'helmet';
+
 import unsupportedMessage from '../db/unsupportedMessage';
 import { sessionSecret, sessionId } from '../../config/secrets';
 import { DB_TYPE, ENV } from '../../config/env';

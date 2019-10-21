@@ -2,6 +2,8 @@
  * Routes for express app
  */
 import passport from 'passport';
+import cors from 'cors';
+
 import unsupportedMessage from '../db/unsupportedMessage';
 import { controllers, passport as passportConfig } from '../db';
 
@@ -9,6 +11,7 @@ const usersController = controllers && controllers.users;
 const topicsController = controllers && controllers.topics;
 
 export default (app) => {
+  app.use(cors());
   // user routes
   if (usersController) {
     app.post('/sessions', usersController.login);
