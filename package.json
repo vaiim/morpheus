@@ -98,6 +98,7 @@
     "prop-types": "^15.5.4",
     "react": "^16.5.2",
     "react-addons-test-utils": "^15.5.0",
+    "react-autobind": "^1.0.6",
     "react-dom": "^16.5.2",
     "react-helmet": "^5.0.2",
     "react-redux": "^5.0.3",
