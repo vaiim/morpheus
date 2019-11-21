@@ -4,12 +4,22 @@
 @import '../common/button';
 @import '../common/input';
 
-.login {
-  width: 420px;
+.assessment {
+  width: 1024px;
   margin: 0 auto;
   background-color: var(--colorAthensGray);
   border: 2px solid var(--colorMercury);
   border-radius: var(--globalRadius);
+}
+
+.container {
+  display: flex
+}
+
+.answers-section {
+  width: 33%;
+  border: 1px solid;
+  display: flex;
 }
 
 .waiting {

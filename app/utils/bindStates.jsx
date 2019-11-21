@@ -75,6 +75,14 @@ export class DataBinder {
     return this.data;
   }
 
+  getName() {
+    if(this.parent) {
+      const prefix = this.parent.getName();
+      return (prefix? prefix + '_' : '' ) + this.key;
+    }
+    return this.key || '';
+  }
+
   set(data, route) {
     if(route !== undefined) return this.access(route).set(data);
     this.data = data;
@@ -115,7 +123,7 @@ export class DataBinder {
       }
     }
     return handler.get(option.accessType, data => {
-      data = (option.pre && option.pre(data)) || data;
+      data = option.pre ? option.pre(data) : data;
       this.dataChanged(data);
       option.after && option.after(data);
     });

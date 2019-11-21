@@ -5,10 +5,11 @@ import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 
+import Select from '../components/Select';
+import Assessment from '../components/assessment/Assessment';
 import { DataBinder } from '../utils/bindStates';
 import { manualLogin, signUp, toggleLoginMode } from '../actions/users';
 import styles from '../css/components/assessment';
-import hourGlassSvg from '../images/hourglass.svg';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +19,11 @@ class LoginOrRegister extends Component {
 
     this.state = { 
       user: {},
-      answers: {},
+      answers: {
+        english: [],
+        math: [],
+        general: [],
+      },
     };
 
     autoBind(this);
@@ -40,48 +45,20 @@ class LoginOrRegister extends Component {
     }
   }
 
+  getYears() {
+    const years = ['Kinder'];
+    for(let i=1; i<=12; i++) {
+      years.push('Year ' + i);
+    }
+    return years;
+  }
+
   render() {
     const { isWaiting, message, isLogin } = this.props.user;
     const user = this.dataBound.access('user');
     const answers = this.dataBound.access('answers');
 
-    return (
-      <div
-        className={cx('login', {
-          waiting: isWaiting
-        })}
-      >
-        <div className={cx('container')}>
-          <img className={cx('loading')} alt="loading" src={hourGlassSvg} />
-          <div className={cx('email-container')}>
-            <form onSubmit={this.handleOnSubmit}>
-              First Name
-              <input
-                className={cx('input')}
-                type="text"
-                onChange={user.access('firstName').attach()}
-                placeholder="First Name"
-              />
-              Family Name
-              <input
-                className={cx('input')}
-                type="text"
-                onChange={user.access('familyName').attach()}
-                placeholder="Family Name"
-              />
-              <p
-                className={cx('message', {
-                'message-show': message && message.length > 0 && false
-              })}>{message}</p>
-              <input
-                className={cx('button')}
-                type="submit"
-                value={isLogin ? 'Login' : 'Register'} />
-            </form>
-          </div>
-        </div>
-      </div>
-    );
+    return <Assessment user={user} answers={answers} submit={this.handleOnSubmit} years={this.getYears()} />;
   }
 }
 
