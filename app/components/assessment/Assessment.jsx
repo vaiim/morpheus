@@ -21,13 +21,13 @@ class AssessmentComponent extends Component {
   }
 
   componentDidMount() {
-    console.log('this.refs init:', this.refs);
+    // console.log('this.refs init:', this.refs);
   }
 
   getField(index, data) {
     const option = {
       pre: (input) => {
-        console.log('this.refs', this.refs);
+        // console.log('this.refs', this.refs);
         // console.log(this.refs, this.refs[data.getName()]);
         // this.refs[data.getName()].nextSibling.focus();
         return input
@@ -51,7 +51,7 @@ class AssessmentComponent extends Component {
   }
 
   render() {
-    const { user, answers, submit, years } = this.props;
+    const { student, answers, submit, years } = this.props;
     return (
       <div
         className={cx('assessment')}
@@ -64,21 +64,21 @@ class AssessmentComponent extends Component {
               <input
                 className={cx('input')}
                 type="text"
-                onChange={user.access('firstName').attach()}
+                onChange={student.access('firstName').attach()}
                 placeholder="First Name"
               />
               Family Name
               <input
                 className={cx('input')}
                 type="text"
-                onChange={user.access('familyName').attach()}
+                onChange={student.access('familyName').attach()}
                 placeholder="Family Name"
               />
               Grade
               <Select
                 height={'3rem'}
                 placeholder="선택해 주세요" 
-                data={user.access('grade')}
+                data={student.access('grade')}
                 options={years}
               />
               <input ref="submit"

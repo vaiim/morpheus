@@ -8,7 +8,7 @@ import autoBind from 'react-autobind';
 import Select from '../components/Select';
 import Assessment from '../components/assessment/Assessment';
 import { DataBinder } from '../utils/bindStates';
-import { manualLogin, signUp, toggleLoginMode } from '../actions/users';
+import { manualLogin, signUp, toggleLoginMode, examSubmit } from '../actions/users';
 import styles from '../css/components/assessment';
 
 const cx = classNames.bind(styles);
@@ -18,7 +18,7 @@ class LoginOrRegister extends Component {
     super(props);
 
     this.state = { 
-      user: {},
+      student: {},
       answers: {
         english: [],
         math: [],
@@ -34,7 +34,7 @@ class LoginOrRegister extends Component {
   handleOnSubmit(event) {
     event.preventDefault();
 
-    const { manualLogin, signUp, user: { isLogin } } = this.props;
+    const { examSubmit, user: { isLogin } } = this.props;
     const email = ReactDOM.findDOMNode(this.refs.email).value;
     const password = ReactDOM.findDOMNode(this.refs.password).value;
 
@@ -54,11 +54,11 @@ class LoginOrRegister extends Component {
   }
 
   render() {
-    const { isWaiting, message, isLogin } = this.props.user;
-    const user = this.dataBound.access('user');
+    const { user } = this.props;
+    const student = this.dataBound.access('student');
     const answers = this.dataBound.access('answers');
 
-    return <Assessment user={user} answers={answers} submit={this.handleOnSubmit} years={this.getYears()} />;
+    return <Assessment student={student} answers={answers} submit={this.handleOnSubmit} years={this.getYears()} />;
   }
 }
 
@@ -80,5 +80,5 @@ function mapStateToProps({user}) {
 // Connects React component to the redux store
 // It does not modify the component class passed to it
 // Instead, it returns a new, connected component class, for you to use.
-export default connect(mapStateToProps, { manualLogin, signUp, toggleLoginMode })(LoginOrRegister);
+export default connect(mapStateToProps, { manualLogin, signUp, toggleLoginMode, examSubmit })(LoginOrRegister);
 

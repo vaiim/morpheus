@@ -55,6 +55,18 @@ export function toggleLoginMode() {
   return { type: types.TOGGLE_LOGIN_MODE };
 }
 
+export function examSubmit(data) {
+  return (dispatch) => {
+    return authService().examSubmit(data)
+      .then((response) => {
+          console.log(response);
+      })
+      .catch((err) => {
+        dispatch(loginError('Oops! Invalid username or password'));
+      });
+  };
+}
+
 export function manualLogin(data) {
   return (dispatch) => {
     dispatch(beginLogin());

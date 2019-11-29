@@ -20,6 +20,11 @@ export default () => {
         password
       }
     }),
+    examSubmit: (data) => client.request({
+      method: 'POST',
+      url: '/users/exam',
+      data
+    }),
     logOut: () => client.request({
       method: 'DELETE',
       url: '/sessions'
