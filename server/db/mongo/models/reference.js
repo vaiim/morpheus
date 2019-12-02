@@ -6,14 +6,9 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const RefereceSchema = new mongoose.Schema({
-  english: [{answer: String, topic: String, rate: Number}],
-  maths: [{answer: String, topic: String, rate: Number}],
-  general: [{answer: String, topic: String, rate: Number}],
-  statistics: {
-    english: Number,
-    maths: Number,
-    general: Number,
-  },
+  title: String,
+  answers: [{answer: String, topic: String, average: Number}],
+  average: Number,
   version: String,
 });
 

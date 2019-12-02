@@ -1,5 +1,6 @@
 import passport from 'passport';
 import User from '../models/user';
+import TestResult from '../models/test_result';
 
 /**
  * POST /login
@@ -26,6 +27,18 @@ export function login(req, res, next) {
 export function logout(req, res) {
   req.logout();
   res.sendStatus(200);
+}
+
+export async function submitExam(req, res) {
+  const { student, answers } = req.body;
+  const userId = req.session && req.session.passport && req.session.passport.user;
+  const user = await User.findOne({_id: userId});
+  student.name = student.firstName + student.familyName;
+  student.grade = student.grade.split(' ')[1];
+  const testResult = new TestResult({student, answers, branchName: user.branch.name});
+  await testResult.save();
+  res.sendStatus(200);
+
 }
 
 /**
@@ -56,5 +69,6 @@ export function signUp(req, res, next) {
 export default {
   login,
   logout,
-  signUp
+  signUp,
+  submitExam
 };

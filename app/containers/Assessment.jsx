@@ -20,9 +20,9 @@ class LoginOrRegister extends Component {
     this.state = { 
       student: {},
       answers: {
-        english: [],
-        math: [],
-        general: [],
+        english: ['A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E'],
+        math: ['A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E'],
+        general: ['A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E'],
       },
     };
 
@@ -34,15 +34,8 @@ class LoginOrRegister extends Component {
   handleOnSubmit(event) {
     event.preventDefault();
 
-    const { examSubmit, user: { isLogin } } = this.props;
-    const email = ReactDOM.findDOMNode(this.refs.email).value;
-    const password = ReactDOM.findDOMNode(this.refs.password).value;
-
-    if (isLogin) {
-      manualLogin({ email, password });
-    } else {
-      signUp({ email, password });
-    }
+    const { examSubmit } = this.props;
+    examSubmit(this.state);
   }
 
   getYears() {

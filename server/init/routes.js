@@ -16,6 +16,7 @@ export default (app) => {
   if (usersController) {
     app.post('/sessions', usersController.login);
     app.post('/users', usersController.signUp);
+    app.post('/users/exam', usersController.submitExam);
     app.delete('/sessions', usersController.logout);
   } else {
     console.warn(unsupportedMessage('users routes'));
