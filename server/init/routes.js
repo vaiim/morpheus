@@ -14,6 +14,7 @@ export default (app) => {
   app.use(cors());
   // user routes
   if (usersController) {
+    app.get('/pdf', usersController.pdf);
     app.post('/sessions', usersController.login);
     app.post('/users', usersController.signUp);
     app.post('/users/exam', usersController.submitExam);
