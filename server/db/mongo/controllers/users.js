@@ -5,10 +5,74 @@ import fs from 'fs';
 import User from '../models/user';
 import TestResult from '../models/test_result';
 
+function drawTable(doc, x, y) {
+  doc.lineWidth(1);
+  let grad = doc.linearGradient(x+100, y+100, x+100, y+250);
+  grad.stop(0, 'white')
+      .stop(1, 'black');
+
+  doc.roundedRect(x, y, 200, 250, 10).fill(grad).stroke();
+  doc.roundedRect(x, y, 200, 250, 10).stroke();
+  doc.roundedRect(x+5, y+5, 190, 240, 5).fill('black').stroke();
+
+  doc.fillColor('white');
+
+  doc.fontSize(12);
+  doc.text('English', x+5, y+5 + 10, { 
+    width: 190,
+    align: 'center'
+  });
+
+  doc.fontSize(8);
+  doc.text('Qn. Resp Ans % Topic', x+5, y+5 + 25, { 
+    width: 190,
+    align: 'left'
+  });
+
+  doc.rect(x+8, y+10 + 30, 184, 200, 5).fill('white').stroke();
+}
+
+function drawStats(doc, x, y) {
+  const sample = [[10, 58.3], [25, 52.4], [25, 63,7]];
+  doc.lineWidth(1);
+
+  doc.strokeColor("#DDD");
+  for(let i=1;i<5;i++) {
+    doc.lineCap('butt')
+     .moveTo(x + (190/5)*i, y)
+     .lineTo(x + (190/5)*i, y+245)
+     .stroke();
+    doc.fillColor('black');
+    doc.text(i*20 + '%', x + (190/5)*i-5, y+245+5);
+  }
+  doc.text('0%', x-5, y+245+5);
+  doc.text('100%', x + (190/5)*5 -10, y+245+5);
+
+  doc.strokeColor('black');
+  const width = 30;
+  const gap = 15;
+  let contextY = y + gap;
+  for(const d of sample) {
+    let grad = doc.linearGradient(x, contextY + width/2, x+190 * d[0] / 100, contextY + width/2);
+    grad.stop(0, 'white')
+        .stop(1, 'black');
+    doc.rect(x, contextY, 190 * d[0] / 100, width).fill(grad).stroke();
+    doc.rect(x, contextY, 190 * d[0] / 100, width).stroke();
+    doc.rect(x, contextY+width, 190 * d[1] / 100, width).fill('white').stroke();
+    doc.rect(x, contextY+width, 190 * d[1] / 100, width).stroke();
+    doc.fillColor('black');
+    doc.text(d[0] + '%', x + 190 * d[0] / 100 + 5, contextY + width/2 -5);
+    doc.text(d[1] + '%', x + 190 * d[1] / 100 + 5, contextY + width*1.5 -5);
+    contextY += width * 2 + gap;
+  }
+
+  doc.rect(x, y, 190, 245).stroke();
+}
 
 function createPDF() {
   const X_START = 50;
   const X_END = 450;
+  const HEIGHT = 720;
   let contextY = 0;
   const doc = new PDFDocument({
     size: 'A4', // 595.28 x 841.89 - ref: https://github.com/foliojs/pdfkit/blob/master/docs/paper_sizes.md
@@ -36,56 +100,14 @@ function createPDF() {
   // these examples are easier to see with a large line width
   doc.lineWidth(20);
   doc.lineJoin('miter')
-     .rect(X_START - 30, 75, X_END + 60, 720)
+     .rect(X_START - 30, 75, X_END + 60, HEIGHT)
      .stroke();
 
-  // line cap settings
-  // doc.lineCap('butt')
-  //    .moveTo(50, 20)
-  //    .lineTo(100, 20)
-  //    .stroke();
-
-  // doc.lineCap('round')
-  //    .moveTo(150, 20)
-  //    .lineTo(200, 20)
-  //    .stroke();
-
-  // // square line cap shown with a circle instead of a line so you can see it
-  // doc.lineCap('square')
-  //    .moveTo(250, 20)
-  //    .circle(275, 30, 15)
-  //    .stroke();
-
-  // // line join settings
-
-  // doc.lineJoin('round')
-  //    .rect(150, 100, 50, 50)
-  //    .stroke();
-
-  // doc.lineJoin('bevel')
-  //    .rect(250, 100, 50, 50)
-  //    .stroke();
-
-  // doc.circle(100, 50, 50)
-  //  .lineWidth(3)
-  //  .fillOpacity(0.8)
-  //  .fillAndStroke("red", "#900")
-
-  // Create a linear gradient
-  // let grad = doc.linearGradient(50, 0, 150, 100);
-  // grad.stop(0, 'green')
-  //     .stop(1, 'blue');
-
-  // doc.rect(50, 0, 100, 100);
-  // doc.fill(grad);
-
-  // Create a radial gradient
-  // grad = doc.radialGradient(300, 50, 0, 300, 50, 50);
-  // grad.stop(0, 'orange', 0)
-  //     .stop(1, 'orange', 1);
-
-  // doc.circle(300, 50, 50);
-  // doc.fill(grad);
+  doc.save();
+  doc.fillColor('white')
+  doc.rotate(-90)
+   .text('James An College - Selective / O.C. / Scholarship / H.S.C. / V.C.E. / Q.C.S. / S.A.C.E. / T.E.E. Specialists - Australia\'s leading college', -(HEIGHT+63), X_END+77);
+  doc.restore();
 
   contextY += 40;
   doc.fontSize(18);
@@ -106,7 +128,7 @@ function createPDF() {
   contextY += 18; // 90
   doc.fontSize(10);
   doc.fillColor('black');
-  doc.text('Head Office : 18 Ninth Ave, Campsie NSW 2914 www.jamesancollege.com', X_START + 45, contextY);
+  doc.text('Head Office : 18 Ninth Ave, Campsie NSW 2914 www.jamesancollege.com?', X_START + 45, contextY);
 
   contextY += 30; // 120
   doc.fontSize(10);
@@ -137,7 +159,17 @@ function createPDF() {
     width: X_END,
     align: 'right'
   });
-  
+
+  contextY += 20;
+
+  doc.lineWidth(1);
+  drawTable(doc, X_START, contextY);
+  drawTable(doc, X_START + 250, contextY);
+
+  contextY += 270;
+  drawTable(doc, X_START, contextY);
+
+  drawStats(doc, X_START + 250, contextY);
   doc.end();
 }
 
