@@ -7,7 +7,7 @@ import TestResult from '../models/test_result';
 
 function drawTable(doc, x, y) {
   const tableWidth = 220;
-  const tableHeight = 240;
+  const tableHeight = 245;
   let grad = doc.linearGradient(x+100, y+100, x+100, y+tableHeight);
   grad.stop(0, 'white')
       .stop(1, 'black');
@@ -79,18 +79,18 @@ function drawTable(doc, x, y) {
 
   }
   doc.fontSize(10);
-  doc.text('Score : 2/20 =', x + 30, y+215, { 
+  doc.text('Score : 2/20 =', x + 30, y+222, { 
     width: 125,
     align: 'right'
   });
   doc.lineWidth(0.5);
   doc.fillColor('black');
-  doc.ellipse(x + 187, y+220, 27, 15).stroke();
-  doc.ellipse(x + 187, y+220, 27, 15).fill('white').stroke();
+  doc.ellipse(x + 187, y+227, 27, 15).stroke();
+  doc.ellipse(x + 187, y+227, 27, 15).fill('white').stroke();
 
   doc.fontSize(18);
   doc.fillColor('black');
-  doc.text('80%', x + 167, y+213, { 
+  doc.text('80%', x + 167, y+220, { 
     width: 50,
     align: 'center'
   });
@@ -98,7 +98,7 @@ function drawTable(doc, x, y) {
 
 function drawStats(doc, x, y) {
   const sample = [[10, 58.3], [25, 52.4], [25, 63.7]];
-  const height = 233;
+  const height = 235;
   const statWidth = 205;
   doc.lineWidth(1);
   doc.fontSize(10);
@@ -133,19 +133,38 @@ function drawStats(doc, x, y) {
     contextY += width * 2 + gap;
   }
 
+  doc.save();
+  doc.rotate(90);
+  doc.translate(y, -x);
+  let grad = doc.linearGradient(50, -statWidth-13, 50, -statWidth-2);
+  grad.stop(0, 'black')
+      .stop(1, 'white');
+  doc.rect(88, -statWidth-13, 11, 11).fill(grad).stroke();
+  doc.fillColor('black');
+  doc.text('English', gap, 4, {width: width*2, align: 'center'});
+  doc.text('Maths', (gap+width)*2, 4, {width: width*2, align: 'center'});
+  doc.text('G.A.', width + (gap+width)*3, 4, {width: width*2, align: 'center'});
+  doc.lineWidth(0.5);
+  doc.rect(0, -statWidth-15, height, 15).stroke();
+  doc.text('YOUR MARK :', 0, -statWidth-12, {width: 84, align: 'right'});
+  doc.rect(88, -statWidth-13, 11, 11).stroke();
+  doc.text('AVERAGE MARK :', 0, -statWidth-12, {width: 210, align: 'right'});
+  doc.rect(214, -statWidth-13, 11, 11).stroke();
+  doc.restore();
+
   doc.rect(x, y, statWidth, height).stroke();
 }
 
 function createPDF() {
   const X_START = 50;
   const X_END = 450;
-  const HEIGHT = 720;
+  const HEIGHT = 710;
   let contextY = 0;
   const doc = new PDFDocument({
     size: 'A4', // 595.28 x 841.89 - ref: https://github.com/foliojs/pdfkit/blob/master/docs/paper_sizes.md
     margins : { // by default, all are 72
          top: 72, 
-         bottom: 72,
+         bottom: 52,
          left: 72,
          right: 72
      },
@@ -169,6 +188,23 @@ function createPDF() {
   doc.lineJoin('miter')
      .rect(X_START - 30, 70, X_END + 60, HEIGHT)
      .stroke();
+
+  let grad = doc.linearGradient(X_START - 20, 80 + 30, X_START - 20, HEIGHT - 10);
+  grad.stop(0, 'white')
+      .stop(1, 'black');
+  doc.lineWidth(1);
+  doc.lineJoin('miter')
+     .rect(X_START - 40.3, 77, 20.6, HEIGHT + 3)
+     .fill(grad)
+     .stroke();
+
+  doc.image('server/jac_1.png', 9, 16, {width: 85});
+
+  doc.lineWidth(1);
+  const barStartX = 73;
+  const barStartY = 60;
+  const barWidth = 22;
+  doc.polygon([barStartX, barStartY], [barStartX + barWidth, barStartY], [barStartX + barWidth, barStartY + 20], [barStartX + 10, barStartY + 20]).fill('black');
 
   doc.save();
   doc.fillColor('white')
@@ -195,7 +231,7 @@ function createPDF() {
   contextY += 18; // 90
   doc.fontSize(10);
   doc.fillColor('black');
-  doc.text('Head Office : 18 Ninth Ave, Campsie NSW 2914 www.jamesancollege.com?', X_START + 45, contextY);
+  doc.text('Head Office : 18 Ninth Ave, Campsie NSW 2914 www.jamesancollege.com', X_START + 45, contextY);
 
   contextY += 30; // 120
   doc.fontSize(10);
@@ -233,28 +269,20 @@ function createPDF() {
   drawTable(doc, X_START - 5, contextY);
   drawTable(doc, X_START + 235, contextY);
 
-  contextY += 260;
+  contextY += 265;
   drawTable(doc, X_START - 5, contextY);
 
   drawStats(doc, X_START + 235, contextY);
 
-  let grad = doc.linearGradient(X_START - 20, 80 + 30, X_START - 20, HEIGHT - 10);
-  grad.stop(0, 'white')
-      .stop(1, 'black');
-  doc.lineWidth(1);
-  doc.lineJoin('miter')
-     .rect(X_START - 40.3, 77, 20.6, HEIGHT)
-     .fill(grad)
-     .stroke();
+  contextY += 265;
+  doc.text('Thank you once again for taking part in James An College Assessment Test.', X_START, contextY);
 
+  contextY += 20;
+  doc.text('JAC COM Victoria James An College', X_START, contextY);
 
-  doc.image('server/jac_1.png', 9, 16, {width: 85});
-
-  doc.lineWidth(1);
-  const barStartX = 73;
-  const barStartY = 60;
-  const barWidth = 22;
-  doc.polygon([barStartX, barStartY], [barStartX + barWidth, barStartY], [barStartX + barWidth, barStartY + 20], [barStartX + 10, barStartY + 20]).fill('black');
+  contextY += 30;
+  doc.fillColor('white');
+  doc.text('16C/77-79 Ashley St. Braybrook VIC 3019', X_START - 20, contextY);
 
   doc.end();
 }
