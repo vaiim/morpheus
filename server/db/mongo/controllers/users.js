@@ -69,38 +69,59 @@ function drawTable(doc, x, y) {
   for(let i=0;i<10;i++) {
     doc.rect(x+11, y+38+17*i, tableWidth - 22, 8.5).fill('#CCC').stroke();
   }
+
   doc.fill('black');
   doc.fontSize(7);
+  const cellWidths = [15, 20, 8, 20, 27, 16, 60];
   for(let i=0;i<20;i++) {
     xStart = x+8;
     doc.text(i+1+'.', xStart, y+40+8.5*i, { 
-      width: colWidths[0],
+      width: cellWidths[0],
       align: 'right'
     });
     
-    xStart += colWidths[0] + 2;
-    doc.text('A x', xStart, y+40+8.5*i, { 
-      width: colWidths[1],
+    xStart += cellWidths[0] + 2;
+    doc.text('A', xStart, y+40+8.5*i, { 
+      width: cellWidths[1],
       align: 'right'
     });
 
-    xStart += colWidths[1];
+    xStart += cellWidths[1];
+    if(i%2 === 0) {
+      doc.lineWidth(1.5);
+      doc.lineCap('butt')
+       .moveTo(xStart + 5, y+40+8.5*i + 1)
+       .lineTo(xStart + 8.5, y+40+8.5*i + 4.5)
+       .moveTo(xStart + 8.5, y+40+8.5*i + 1)
+       .lineTo(xStart + 5, y+40+8.5*i + 4.5)
+       .stroke();
+   } 
+   else {
+    doc.lineWidth(1);
+    doc.lineCap('butt')
+     .moveTo(xStart + 5, y+40+8.5*i + 2.5)
+     .lineTo(xStart + 6.5, y+40+8.5*i + 4)
+     .lineTo(xStart + 8.5, y+40+8.5*i)
+     .stroke();
+   }
+
+    xStart += cellWidths[2];
     doc.text('D', xStart, y+40+8.5*i, { 
-      width: colWidths[2],
+      width: cellWidths[3],
       align: 'right'
     });
     
-    xStart += colWidths[2];
+    xStart += cellWidths[3];
     doc.text('80%', xStart, y+40+8.5*i, { 
-      width: colWidths[3],
+      width: cellWidths[4],
       align: 'right'
     });
     
-    xStart += colWidths[3];
+    xStart += cellWidths[4];
 
-    xStart += colWidths[4];
+    xStart += cellWidths[5];
     doc.text('GRAMMAR', xStart, y+40+8.5*i, { 
-      width: colWidths[5],
+      width: cellWidths[6],
       align: 'left'
     });
 
