@@ -73,15 +73,17 @@ function drawTable(doc, x, y) {
   doc.fill('black');
   doc.fontSize(7);
   const cellWidths = [15, 20, 8, 20, 27, 16, 60];
+  let tempY;
   for(let i=0;i<20;i++) {
     xStart = x+8;
-    doc.text(i+1+'.', xStart, y+40+8.5*i, { 
+    tempY = y+40+8.5*i;
+    doc.text(i+1+'.', xStart, tempY, { 
       width: cellWidths[0],
       align: 'right'
     });
     
     xStart += cellWidths[0] + 2;
-    doc.text('A', xStart, y+40+8.5*i, { 
+    doc.text('A', xStart, tempY, { 
       width: cellWidths[1],
       align: 'right'
     });
@@ -90,29 +92,29 @@ function drawTable(doc, x, y) {
     if(i%2 === 0) {
       doc.lineWidth(1.5);
       doc.lineCap('butt')
-       .moveTo(xStart + 5, y+40+8.5*i + 1)
-       .lineTo(xStart + 8.5, y+40+8.5*i + 4.5)
-       .moveTo(xStart + 8.5, y+40+8.5*i + 1)
-       .lineTo(xStart + 5, y+40+8.5*i + 4.5)
+       .moveTo(xStart + 5, tempY + 1)
+       .lineTo(xStart + 8.5, tempY + 4.5)
+       .moveTo(xStart + 8.5, tempY + 1)
+       .lineTo(xStart + 5, tempY + 4.5)
        .stroke();
-   } 
-   else {
-    doc.lineWidth(1);
-    doc.lineCap('butt')
-     .moveTo(xStart + 5, y+40+8.5*i + 2.5)
-     .lineTo(xStart + 6.5, y+40+8.5*i + 4)
-     .lineTo(xStart + 8.5, y+40+8.5*i)
-     .stroke();
-   }
+      } 
+      else {
+      doc.lineWidth(1);
+      doc.lineCap('butt')
+       .moveTo(xStart + 5, tempY + 2.5)
+       .lineTo(xStart + 6.5, tempY + 4)
+       .lineTo(xStart + 8.5, tempY)
+       .stroke();
+      }
 
     xStart += cellWidths[2];
-    doc.text('D', xStart, y+40+8.5*i, { 
+    doc.text('D', xStart, tempY, { 
       width: cellWidths[3],
       align: 'right'
     });
     
     xStart += cellWidths[3];
-    doc.text('80%', xStart, y+40+8.5*i, { 
+    doc.text('80%', xStart, tempY, { 
       width: cellWidths[4],
       align: 'right'
     });
@@ -120,7 +122,7 @@ function drawTable(doc, x, y) {
     xStart += cellWidths[4];
 
     xStart += cellWidths[5];
-    doc.text('GRAMMAR', xStart, y+40+8.5*i, { 
+    doc.text('GRAMMAR', xStart, tempY, { 
       width: cellWidths[6],
       align: 'left'
     });
