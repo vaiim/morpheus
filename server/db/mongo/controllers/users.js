@@ -209,7 +209,7 @@ function drawStats(doc, x, y) {
 }
 
 function createPDF() {
-  const X_START = 50;
+  const X_START = 65;
   const X_END = 450;
   const HEIGHT = 710;
   let contextY = 0;
@@ -251,10 +251,10 @@ function createPDF() {
      .fill(grad)
      .stroke();
 
-  doc.image('server/jac_1.png', 9, 16, {width: 85});
+  doc.image('server/jac_1.png', X_START - 41, 16, {width: 85});
 
   doc.lineWidth(1);
-  const barStartX = 73;
+  const barStartX = X_START + 23;
   const barStartY = 60;
   const barWidth = 22;
   doc.polygon([barStartX, barStartY], [barStartX + barWidth, barStartY], [barStartX + barWidth, barStartY + 20], [barStartX + 10, barStartY + 20]).fill('black');
@@ -264,7 +264,8 @@ function createPDF() {
   doc.fontSize(11);
   doc.fillColor('white');
   doc.rotate(-90)
-   .text('James An College - Selective / O.C. / Scholarship / H.S.C. / V.C.E. / Q.C.S. / S.A.C.E. / T.E.E. Specialists - Australia\'s Leading Coaching College', -(HEIGHT+56), X_END+76);
+   .text('James An College - Selective / O.C. / Scholarship / H.S.C. / V.C.E. / Q.C.S. / S.A.C.E. / T.E.E. Specialists - Australia\'s Leading Coaching College', 
+    -(HEIGHT+56), X_START + 400 + 76);
   doc.restore();
 
   contextY += 38;
