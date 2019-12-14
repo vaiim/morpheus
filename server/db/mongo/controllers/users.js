@@ -19,66 +19,93 @@ function drawTable(doc, x, y) {
 
   doc.fillColor('white');
   doc.fontSize(12);
-  doc.text('English', x+5, y + 5 + 5, { 
+  doc.font('Times-Bold').text('English', x, y + 5 + 4, { 
     width: tableWidth,
+    align: 'center',
+    characterSpacing: 0.5
+  });
+
+  const colWidths = [15, 25, 20, 30, 15, 60];
+  let xStart = x + 10;
+  doc.fontSize(8);
+  doc.font('Times-Roman');
+  doc.text('Qn.', xStart, y+25, { 
+    width: colWidths[0] + 10,
     align: 'center'
   });
 
-  doc.fontSize(8);
-  doc.text('Qn. Resp Ans % Topic', x+5, y+5 + 20, { 
-    width: tableWidth,
+  xStart += colWidths[0] + 10;
+  doc.text('Resp', xStart, y+25, { 
+    width: colWidths[1],
+    align: 'center'
+  });
+
+  xStart += colWidths[1];
+  doc.text('Ans', xStart, y+25, { 
+    width: colWidths[2],
+    align: 'center'
+  });
+
+  xStart += colWidths[2];
+  doc.text('%', xStart, y+25, { 
+    width: colWidths[3],
+    align: 'center'
+  });
+
+  xStart += colWidths[3];
+  doc.text('', xStart, y+25, { 
+    width: colWidths[4],
+    align: 'right'
+  });
+
+  doc.text('Topic', xStart + 5, y+25, { 
+    width: colWidths[5],
     align: 'left'
   });
+
   doc.rect(x+8, y+10 + 25, tableWidth - 16, tableHeight-42, 5).fill('white').stroke();
   
   doc.fillColor('black');
   for(let i=0;i<10;i++) {
     doc.rect(x+11, y+38+17*i, tableWidth - 22, 8.5).fill('#CCC').stroke();
   }
-  const colWidths = [15, 25, 20, 30, 15, 60];
   doc.fill('black');
-  doc.fontSize(6);
+  doc.fontSize(7);
   for(let i=0;i<20;i++) {
-    let xStart = x+11;
+    xStart = x+8;
     doc.text(i+1+'.', xStart, y+40+8.5*i, { 
       width: colWidths[0],
       align: 'right'
     });
-    // doc.rect(xStart, y+40+8.5*i, colWidths[0], 8).stroke();
-
-    xStart += colWidths[0];
+    
+    xStart += colWidths[0] + 2;
     doc.text('A x', xStart, y+40+8.5*i, { 
       width: colWidths[1],
       align: 'right'
     });
-    // doc.rect(xStart, y+40+8.5*i, colWidths[1], 8).stroke();
 
     xStart += colWidths[1];
     doc.text('D', xStart, y+40+8.5*i, { 
       width: colWidths[2],
       align: 'right'
     });
-    // doc.rect(xStart, y+40+8.5*i, colWidths[2], 8).stroke();
     
     xStart += colWidths[2];
     doc.text('80%', xStart, y+40+8.5*i, { 
       width: colWidths[3],
       align: 'right'
     });
-    // doc.rect(xStart, y+40+8.5*i, colWidths[3], 8).stroke();
     
     xStart += colWidths[3];
-    // doc.rect(xStart, y+40+8.5*i, colWidths[4], 8).stroke();
 
     xStart += colWidths[4];
     doc.text('GRAMMAR', xStart, y+40+8.5*i, { 
       width: colWidths[5],
       align: 'left'
     });
-    // doc.rect(xStart, y+45+8.5*i, colWidths[5], 8).stroke();
 
   }
-  doc.fontSize(10);
+  doc.fontSize(11);
   doc.text('Score : 2/20 =', x + 30, y+222, { 
     width: 125,
     align: 'right'
@@ -88,12 +115,14 @@ function drawTable(doc, x, y) {
   doc.ellipse(x + 187, y+227, 27, 15).stroke();
   doc.ellipse(x + 187, y+227, 27, 15).fill('white').stroke();
 
-  doc.fontSize(18);
+  doc.fontSize(20);
   doc.fillColor('black');
-  doc.text('80%', x + 167, y+220, { 
-    width: 50,
+  doc.font('server/BodoniUltraFLF-Italic.ttf')
+  doc.text('65%', x + 162, y+215, { 
+    width: 55,
     align: 'center'
   });
+  doc.font('Times-Roman');
 }
 
 function drawStats(doc, x, y) {
@@ -141,6 +170,7 @@ function drawStats(doc, x, y) {
       .stop(1, 'white');
   doc.rect(88, -statWidth-13, 11, 11).fill(grad).stroke();
   doc.fillColor('black');
+  doc.font('Times-Bold');
   doc.text('English', gap, 4, {width: width*2, align: 'center'});
   doc.text('Maths', (gap+width)*2, 4, {width: width*2, align: 'center'});
   doc.text('G.A.', width + (gap+width)*3, 4, {width: width*2, align: 'center'});
@@ -207,41 +237,46 @@ function createPDF() {
   doc.polygon([barStartX, barStartY], [barStartX + barWidth, barStartY], [barStartX + barWidth, barStartY + 20], [barStartX + 10, barStartY + 20]).fill('black');
 
   doc.save();
-  doc.fillColor('white')
+  doc.font('Times-Bold');
+  doc.fontSize(11);
+  doc.fillColor('white');
   doc.rotate(-90)
-   .text('James An College - Selective / O.C. / Scholarship / H.S.C. / V.C.E. / Q.C.S. / S.A.C.E. / T.E.E. Specialists - Australia\'s leading college', -(HEIGHT+63), X_END+77);
+   .text('James An College - Selective / O.C. / Scholarship / H.S.C. / V.C.E. / Q.C.S. / S.A.C.E. / T.E.E. Specialists - Australia\'s Leading Coaching College', -(HEIGHT+56), X_END+76);
   doc.restore();
 
-  contextY += 40;
-  doc.fontSize(18);
+  contextY += 38;
+  doc.fontSize(21);
   doc.fillColor('black');
-  doc.text('Assessment Test Report', X_START + 45, contextY);
+  doc.font('Times-Bold').text('Assessment Test Report', X_START + 45, contextY, {characterSpacing: 1});
 
-  contextY += 24; // 69
+  contextY += 26; // 69
+  doc.fontSize(18);
   doc.fillColor('white');
-  doc.text('JAMES AN COLLEGE', X_START + 45, contextY);
+  doc.font('Helvetica-Bold').text('JAMES AN COLLEGE', X_START + 45, contextY);
 
-  contextY += 3; // 72
-  doc.fontSize(10);
-  doc.text('Test Date : 3 Dec 2019', X_END - 95, contextY, { 
+  contextY += 2; // 72
+  doc.fontSize(11);
+  doc.font('Times-Roman').text('Test Date : 3 Dec 2019', X_END - 95, contextY, { 
     width: 165,
     align: 'right'
   });
 
-  contextY += 18; // 90
+  contextY += 20; // 90
   doc.fontSize(10);
   doc.fillColor('black');
-  doc.text('Head Office : 18 Ninth Ave, Campsie NSW 2914 www.jamesancollege.com', X_START + 45, contextY);
+  doc.font('Times-Bold');
+  doc.text('Head Office : 18 Ninth Ave, Campsie NSW 2914  ', X_START + 45, contextY, { continued: true, characterSpacing: 0.5 });
+  doc.text('www.jamesancollege.com', {characterSpacing: 0});
 
-  contextY += 30; // 120
+  contextY += 32;
   doc.fontSize(10);
-  doc.text('Dear Kim Jeonghyeon,', 50, 120);
+  doc.font('Times-Roman').text('Dear Kim Jeonghyeon,', 50, contextY, {characterSpacing: 0.3});
 
-  contextY += 25; // 145
-  doc.text('Thank you for participating in the James An College Year 4 assessment Test.', X_START, 145);
+  contextY += 22; // 145
+  doc.text('Thank you for participating in the James An College Year 4 assessment Test.', X_START, contextY);
 
-  contextY += 18; // 162
-  doc.text('Your marks are indicated below in detail. (Average socre for 3 subject/s : 20%)', X_START, 162);
+  contextY += 17; // 162
+  doc.text('Your marks are indicated below in detail. (Average socre for 3 subject/s : 20%)', X_START, contextY);
 
 
   // doc.lineWidth(1);
@@ -249,7 +284,8 @@ function createPDF() {
   //    .rect(50, 175, 490, 55)
   //    .stroke();
 
-  contextY += 18; // 179
+  contextY += 16; // 179
+  doc.font('Times-Bold');
   doc.text('English Mark : 10%', X_START, contextY, { 
     width: X_END,
     align: 'left'
@@ -275,12 +311,13 @@ function createPDF() {
   drawStats(doc, X_START + 235, contextY);
 
   contextY += 265;
+  doc.font('Times-Roman');
   doc.text('Thank you once again for taking part in James An College Assessment Test.', X_START, contextY);
 
   contextY += 20;
   doc.text('JAC COM Victoria James An College', X_START, contextY);
 
-  contextY += 30;
+  contextY += 33;
   doc.fillColor('white');
   doc.text('16C/77-79 Ashley St. Braybrook VIC 3019', X_START - 20, contextY);
 
