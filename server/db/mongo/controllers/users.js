@@ -4,8 +4,9 @@ import fs from 'fs';
 
 import User from '../models/user';
 import TestResult from '../models/test_result';
+import Reference from '../models/reference';
 
-function drawTable(doc, x, y) {
+function drawTable(doc, title, data, x, y) {
   const tableWidth = 220;
   const tableHeight = 245;
   let grad = doc.linearGradient(x+100, y+100, x+100, y+tableHeight);
@@ -19,7 +20,7 @@ function drawTable(doc, x, y) {
 
   doc.fillColor('white');
   doc.fontSize(12);
-  doc.font('Times-Bold').text('English', x, y + 5 + 4, { 
+  doc.font('Times-Bold').text(title, x, y + 5 + 4, { 
     width: tableWidth,
     align: 'center',
     characterSpacing: 0.5
@@ -72,7 +73,7 @@ function drawTable(doc, x, y) {
 
   doc.fill('black');
   doc.fontSize(7);
-  const cellWidths = [15, 20, 8, 20, 27, 16, 60];
+  const cellWidths = [15, 20, 8, 20, 27, 16, 80];
   let tempY;
   for(let i=0;i<20;i++) {
     xStart = x+8;
@@ -83,13 +84,21 @@ function drawTable(doc, x, y) {
     });
     
     xStart += cellWidths[0] + 2;
-    doc.text('A', xStart, tempY, { 
+    doc.text(data[i].input || ' ', xStart, tempY, { 
       width: cellWidths[1],
       align: 'right'
     });
 
     xStart += cellWidths[1];
-    if(i%2 === 0) {
+    if(data[i].correct) {
+      doc.lineWidth(1);
+      doc.lineCap('butt')
+       .moveTo(xStart + 5, tempY + 2.5)
+       .lineTo(xStart + 6.5, tempY + 4)
+       .lineTo(xStart + 8.5, tempY)
+       .stroke();
+    } 
+    else {
       doc.lineWidth(1.5);
       doc.lineCap('butt')
        .moveTo(xStart + 5, tempY + 1)
@@ -97,24 +106,16 @@ function drawTable(doc, x, y) {
        .moveTo(xStart + 8.5, tempY + 1)
        .lineTo(xStart + 5, tempY + 4.5)
        .stroke();
-      } 
-      else {
-      doc.lineWidth(1);
-      doc.lineCap('butt')
-       .moveTo(xStart + 5, tempY + 2.5)
-       .lineTo(xStart + 6.5, tempY + 4)
-       .lineTo(xStart + 8.5, tempY)
-       .stroke();
-      }
+    }
 
     xStart += cellWidths[2];
-    doc.text('D', xStart, tempY, { 
+    doc.text(data[i].answer, xStart, tempY, { 
       width: cellWidths[3],
       align: 'right'
     });
     
     xStart += cellWidths[3];
-    doc.text('80%', xStart, tempY, { 
+    doc.text(data[i].average, xStart, tempY, { 
       width: cellWidths[4],
       align: 'right'
     });
@@ -122,7 +123,7 @@ function drawTable(doc, x, y) {
     xStart += cellWidths[4];
 
     xStart += cellWidths[5];
-    doc.text('GRAMMAR', xStart, tempY, { 
+    doc.text(data[i].topic, xStart, tempY, { 
       width: cellWidths[6],
       align: 'left'
     });
@@ -208,7 +209,29 @@ function drawStats(doc, x, y) {
   doc.rect(x, y, statWidth, height).stroke();
 }
 
-function createPDF() {
+async function createExamData(testResult) {
+  const data = {
+    grade : testResult.student.grade,
+    version: testResult.version || 'init',
+    averages: {},
+  }
+  const references = await Reference.find({version: data.version, grade: data.grade}).lean();
+  for(let reference of references) {
+    const title = reference.title;
+    data.averages[title] = reference.average;
+    let answers = testResult.answers[title];
+    data[title] = [...reference.answers];
+    for(let i=0; i<data[title].length; i++) {
+      data[title][i].input = answers[i];
+      data[title][i].correct = answers[i] === data[title][i].answer;
+    }
+  }
+
+  return data;
+}
+
+async function createPDF(student, testResult) {
+  const result = await createExamData(testResult);
   const X_START = 65;
   const X_END = 450;
   const HEIGHT = 710;
@@ -279,8 +302,9 @@ function createPDF() {
   doc.font('Helvetica-Bold').text('JAMES AN COLLEGE', X_START + 45, contextY);
 
   contextY += 2; // 72
+  const today = new Date();
   doc.fontSize(11);
-  doc.font('Times-Roman').text('Test Date : 3 Dec 2019', X_END - 95, contextY, { 
+  doc.font('Times-Roman').text(`Test Date : ${today.getDate()} ${today.toLocaleString('default', { month: 'short' })} ${today.getFullYear()}`, X_END - 95, contextY, { 
     width: 165,
     align: 'right'
   });
@@ -294,10 +318,10 @@ function createPDF() {
 
   contextY += 32;
   doc.fontSize(10);
-  doc.font('Times-Roman').text('Dear Kim Jeonghyeon,', 50, contextY, {characterSpacing: 0.3});
+  doc.font('Times-Roman').text('Dear ' + student.name, 50, contextY, {characterSpacing: 0.3});
 
   contextY += 22; // 145
-  doc.text('Thank you for participating in the James An College Year 4 assessment Test.', X_START, contextY);
+  doc.text(`Thank you for participating in the James An College Year ${student.grade} assessment Test.`, X_START, contextY);
 
   contextY += 17; // 162
   doc.text('Your marks are indicated below in detail. (Average socre for 3 subject/s : 20%)', X_START, contextY);
@@ -326,11 +350,11 @@ function createPDF() {
   contextY += 20;
 
   doc.lineWidth(1);
-  drawTable(doc, X_START - 5, contextY);
-  drawTable(doc, X_START + 235, contextY);
+  drawTable(doc, 'English', result.english, X_START - 5, contextY);
+  drawTable(doc, 'Mathematics', result.math, X_START + 235, contextY);
 
   contextY += 265;
-  drawTable(doc, X_START - 5, contextY);
+  drawTable(doc, 'General Ability', result.general, X_START - 5, contextY);
 
   drawStats(doc, X_START + 235, contextY);
 
@@ -348,10 +372,7 @@ function createPDF() {
   doc.end();
 }
 
-createPDF();
-
 export function pdf(req, res) {
-  createPDF();
   res.sendStatus(200);
 }
 
@@ -390,6 +411,7 @@ export async function submitExam(req, res) {
   student.grade = student.grade.split(' ')[1];
   const testResult = new TestResult({student, answers, branchName: user.branch.name});
   await testResult.save();
+  createPDF(student, testResult)
   res.sendStatus(200);
 }
 

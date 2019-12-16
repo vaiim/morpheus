@@ -12,6 +12,7 @@ const SelectComponent = ({ data, option=null, ...props }) => {
       style={{width:'40px', border: '1px solid'}}
       className={cx('answer')}
       type="text"
+      value={data.get()}
       onChange={data.attach(option)}
       {...props}
     />
