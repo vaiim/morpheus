@@ -75,7 +75,10 @@ function drawTable(doc, title, data, x, y) {
   doc.fontSize(7);
   const cellWidths = [15, 20, 8, 20, 27, 16, 80];
   let tempY;
-  for(let i=0;i<20;i++) {
+  
+  if(!data) return;
+
+  for(let i=0; i<20; i++) {
     xStart = x+8;
     tempY = y+40+8.5*i;
     doc.text(i+1+'.', xStart, tempY, { 
@@ -115,7 +118,7 @@ function drawTable(doc, title, data, x, y) {
     });
     
     xStart += cellWidths[3];
-    doc.text(data[i].average, xStart, tempY, { 
+    doc.text(data[i].average + '%', xStart, tempY, { 
       width: cellWidths[4],
       align: 'right'
     });
@@ -129,10 +132,13 @@ function drawTable(doc, title, data, x, y) {
     });
 
   }
+  const count = data.map(x => x.correct).reduce((a, sum) => a + sum, 0);
+  const average = count / data.length * 100
   doc.fontSize(11);
-  doc.text('Score : 2/20 =', x + 30, y+222, { 
+  doc.text(`Score : ${count}/20 =`, x + 30, y+222, { 
     width: 125,
-    align: 'right'
+    align: 'right',
+    characterSpacing: 0.5
   });
   doc.lineWidth(0.5);
   doc.fillColor('black');
@@ -142,15 +148,16 @@ function drawTable(doc, title, data, x, y) {
   doc.fontSize(20);
   doc.fillColor('black');
   doc.font('server/BodoniUltraFLF-Italic.ttf')
-  doc.text('65%', x + 162, y+215, { 
+  doc.text(average + '%', x + 162, y+215, { 
     width: 55,
-    align: 'center'
+    align: 'center',
+    characterSpacing: 0.5
   });
   doc.font('Times-Roman');
 }
 
-function drawStats(doc, x, y) {
-  const sample = [[10, 58.3], [25, 52.4], [25, 63.7]];
+function drawStats(doc, data, x, y) {
+  const sample = [data.scores['english'], data.scores['math'], data.scores['general']].filter(x => x);
   const height = 235;
   const statWidth = 205;
   doc.lineWidth(1);
@@ -214,19 +221,27 @@ async function createExamData(testResult) {
     grade : testResult.student.grade,
     version: testResult.version || 'init',
     averages: {},
+    scores: {},
+    counts: {},
   }
+  let total = 0;
   const references = await Reference.find({version: data.version, grade: data.grade}).lean();
   for(let reference of references) {
     const title = reference.title;
     data.averages[title] = reference.average;
     let answers = testResult.answers[title];
     data[title] = [...reference.answers];
+    let count = 0;
     for(let i=0; i<data[title].length; i++) {
       data[title][i].input = answers[i];
       data[title][i].correct = answers[i] === data[title][i].answer;
+      count += data[title][i].correct;
     }
+    data.scores[title] = [count / answers.length * 100, reference.average];
+    data.counts[title] = count;
+    total += count / answers.length * 100;
   }
-
+  data.total = total / Object.keys(data.scores).length;
   return data;
 }
 
@@ -304,8 +319,8 @@ async function createPDF(student, testResult) {
   contextY += 2; // 72
   const today = new Date();
   doc.fontSize(11);
-  doc.font('Times-Roman').text(`Test Date : ${today.getDate()} ${today.toLocaleString('default', { month: 'short' })} ${today.getFullYear()}`, X_END - 95, contextY, { 
-    width: 165,
+  doc.font('Times-Roman').text(`Test Date : ${today.getDate()} ${today.toLocaleString('default', { month: 'short' })} ${today.getFullYear()}`, X_START, contextY, { 
+    width: X_END + 20,
     align: 'right'
   });
 
@@ -318,13 +333,13 @@ async function createPDF(student, testResult) {
 
   contextY += 32;
   doc.fontSize(10);
-  doc.font('Times-Roman').text('Dear ' + student.name, 50, contextY, {characterSpacing: 0.3});
+  doc.font('Times-Roman').text('Dear ' + student.name, X_START, contextY, {characterSpacing: 0.3});
 
   contextY += 22; // 145
   doc.text(`Thank you for participating in the James An College Year ${student.grade} assessment Test.`, X_START, contextY);
 
   contextY += 17; // 162
-  doc.text('Your marks are indicated below in detail. (Average socre for 3 subject/s : 20%)', X_START, contextY);
+  doc.text(`Your marks are indicated below in detail. (Average score for ${Object.keys(result.scores).length} subject/s : ${result.total.toFixed(2)}%)`, X_START, contextY);
 
 
   // doc.lineWidth(1);
@@ -334,15 +349,15 @@ async function createPDF(student, testResult) {
 
   contextY += 16; // 179
   doc.font('Times-Bold');
-  doc.text('English Mark : 10%', X_START, contextY, { 
+  doc.text(`English Mark : ${result.scores['english'][0]}%`, X_START, contextY, { 
     width: X_END,
     align: 'left'
   });
-  doc.text('Mathematics Mark : 10%', X_START, contextY, { 
+  doc.text(`Mathematics Mark : ${result.scores['math'][0]}%`, X_START, contextY, { 
     width: X_END,
     align: 'center'
   });
-  doc.text('General Ability Mark : 10%', X_START, contextY, { 
+  doc.text(`General Ability Mark : ${result.scores['general']? result.scores['general'][0] + '%' : 'N/A'}`, X_START, contextY, { 
     width: X_END,
     align: 'right'
   });
@@ -356,7 +371,7 @@ async function createPDF(student, testResult) {
   contextY += 265;
   drawTable(doc, 'General Ability', result.general, X_START - 5, contextY);
 
-  drawStats(doc, X_START + 235, contextY);
+  drawStats(doc, result, X_START + 235, contextY);
 
   contextY += 265;
   doc.font('Times-Roman');
