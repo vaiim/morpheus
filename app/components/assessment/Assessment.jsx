@@ -18,34 +18,44 @@ class AssessmentComponent extends Component {
   constructor(props) {
     super(props);
     autoBind(this);
+    this.links = {
+      english: this.getRefs(),
+      math: this.getRefs(),
+      general: this.getRefs()
+    };
   }
 
-  componentDidMount() {
-    // console.log('this.refs init:', this.refs);
+  getRefs(created=[], count=20) {
+    if(count <= 0) return created;
+    created.push(React.createRef());
+    return this.getRefs(created, count - 1);
   }
 
-  getField(index, data) {
-    const option = {
-      pre: (input) => {
-        // console.log('this.refs', this.refs);
-        // console.log(this.refs, this.refs[data.getName()]);
-        // this.refs[data.getName()].nextSibling.focus();
-        return input
+  inputChanged(index, refs, nextRefs) {
+    return (data) => {
+      if(!data) return;
+      if(index >= 19) {
+        nextRefs && nextRefs[0].current.focus();
+      }
+      else {
+        refs[index + 1].current.focus();
       }
     }
-    this[data.getName()] = React.createRef();
+  }
+
+  getField(index, data, refs, nextRefs) {
     return <div style={{width:'100%', display: 'flex'}} key={data.getName()}>
               <div style={{width:'20px'}}>
-                { index }
+                { index + 1 }
               </div>
-              <MarkingInput data={data} option={option} ref={this[data.getName()]} />
+              {refs && <MarkingInput data={data} link={refs[index]} callback={this.inputChanged(index, refs, nextRefs)} />}
             </div>
   }
 
-  createFields(data) {
+  createFields(data, refs, nextRefs=null) {
     const fields = [[], [], [], []];
     for(let i=0;i<20;i++) {
-      fields[parseInt(i/5)].push(this.getField(i+1, data.access(i)));
+      fields[parseInt(i/5)].push(this.getField(i, data.access(i), refs, nextRefs));
     }
     return fields;
   }
@@ -81,7 +91,7 @@ class AssessmentComponent extends Component {
                 data={student.access('grade')}
                 options={years}
               />
-              <input ref="submit"
+              <input
                 className={cx('button')}
                 type="submit"
                 value={'Submit'} />
@@ -90,13 +100,13 @@ class AssessmentComponent extends Component {
         </div>
         <div className={cx('container')}>
           <div className={cx('answers-section')}>
-            { this.createFields(answers.access('english')).map((x, i) => <div key={i}>{x}</div>) }
+            { this.createFields(answers.access('english'), this.links['english'], this.links['math']).map((x, i) => <div key={i}>{x}</div>) }
           </div>
           <div className={cx('answers-section')}>
-            { this.createFields(answers.access('math')).map((x, i) => <div key={i}>{x}</div>) }
+            { this.createFields(answers.access('math'), this.links['math'], this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
           </div>
           <div className={cx('answers-section')}>
-            { this.createFields(answers.access('general')).map((x, i) => <div key={i}>{x}</div>) }
+            { this.createFields(answers.access('general'), this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
           </div>
         </div>
       </div>

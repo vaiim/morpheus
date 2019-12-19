@@ -6,16 +6,30 @@ import styles from '../../css/components/assessment';
 
 const cx = classNames.bind(styles);
 
-const SelectComponent = ({ data, option=null, ...props }) => {
-  if(option) option.accessType = 'normal';
+const MarkingInputComponent = ({ data, link, callback, ...props }) => {
+  const option = {
+    accessType: 'normal',
+    pre: data => {
+      if(typeof(data) === 'string' && data.length > 0) {
+        data = data.toUpperCase()[0];
+        if('ABCD'.indexOf(data) >= 0) return data;
+      }
+      return '';
+    }, 
+    after: data => {
+      callback(data);
+    }
+  };
   return <input
       style={{width:'40px', border: '1px solid'}}
       className={cx('answer')}
       type="text"
       value={data.get()}
+      onFocus={(event) => event.target.select()}
       onChange={data.attach(option)}
+      ref={link}
       {...props}
     />
 };
 
-export default SelectComponent;
+export default MarkingInputComponent;
