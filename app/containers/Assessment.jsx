@@ -20,9 +20,9 @@ class LoginOrRegister extends Component {
     this.state = { 
       student: {},
       answers: {
-        english: ['A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E'],
-        math: ['A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E'],
-        general: ['A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E','A', 'B', 'C', 'D', 'E'],
+        english: ['A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B'],
+        math: ['A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B'],
+        general: ['A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B'],
       },
     };
 

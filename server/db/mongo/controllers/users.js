@@ -196,21 +196,23 @@ function drawStats(doc, data, x, y) {
   doc.save();
   doc.rotate(90);
   doc.translate(y, -x);
-  let grad = doc.linearGradient(50, -statWidth-13, 50, -statWidth-2);
-  grad.stop(0, 'black')
-      .stop(1, 'white');
-  doc.rect(88, -statWidth-13, 11, 11).fill(grad).stroke();
+  doc.fontSize(11);
   doc.fillColor('black');
   doc.font('Times-Bold');
   doc.text('English', gap, 4, {width: width*2, align: 'center'});
   doc.text('Maths', (gap+width)*2, 4, {width: width*2, align: 'center'});
   doc.text('G.A.', width + (gap+width)*3, 4, {width: width*2, align: 'center'});
+
   doc.lineWidth(0.5);
   doc.rect(0, -statWidth-15, height, 15).stroke();
-  doc.text('YOUR MARK :', 0, -statWidth-12, {width: 84, align: 'right'});
-  doc.rect(88, -statWidth-13, 11, 11).stroke();
-  doc.text('AVERAGE MARK :', 0, -statWidth-12, {width: 210, align: 'right'});
-  doc.rect(214, -statWidth-13, 11, 11).stroke();
+  doc.text('YOUR MARK :', 2, -statWidth-12, {width: 86, align: 'right', characterSpacing: 0.4});
+  doc.text('AVERAGE MARK :', 2, -statWidth-12, {width: 212, align: 'right', characterSpacing: 0.4});
+  doc.rect(216, -statWidth-13, 11, 11).stroke();
+  let grad = doc.linearGradient(50, -statWidth-13, 50, -statWidth-2);
+  grad.stop(0, 'black')
+      .stop(1, 'white');
+  doc.rect(90, -statWidth-13, 11, 11).fill(grad).stroke();
+  doc.rect(90, -statWidth-13, 11, 11).stroke();
   doc.restore();
 
   doc.rect(x, y, statWidth, height).stroke();
@@ -422,7 +424,7 @@ export async function submitExam(req, res) {
   const { student, answers } = req.body;
   const userId = req.session && req.session.passport && req.session.passport.user;
   const user = await User.findOne({_id: userId});
-  student.name = student.firstName + student.familyName;
+  student.name = student.firstName + ' ' + student.familyName;
   student.grade = student.grade.split(' ')[1];
   const testResult = new TestResult({student, answers, branchName: user.branch.name});
   await testResult.save();
