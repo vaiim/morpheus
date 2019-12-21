@@ -74,6 +74,7 @@ class AssessmentComponent extends Component {
               <input
                 className={cx('input')}
                 type="text"
+                value={student.access('firstName').get()}
                 onChange={student.access('firstName').attach()}
                 placeholder="First Name"
               />
@@ -81,6 +82,7 @@ class AssessmentComponent extends Component {
               <input
                 className={cx('input')}
                 type="text"
+                value={student.access('familyName').get()}
                 onChange={student.access('familyName').attach()}
                 placeholder="Family Name"
               />

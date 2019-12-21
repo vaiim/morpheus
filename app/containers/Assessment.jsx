@@ -17,14 +17,28 @@ class LoginOrRegister extends Component {
   constructor(props) {
     super(props);
 
+    const { answers, student }= this.props.exam || {};
     this.state = { 
       student: {},
       answers: {
-        english: ['A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B'],
-        math: ['A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B'],
-        general: ['A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B','A', 'B', 'C', 'D', 'B'],
+        english: [],
+        math: [],
+        general: [],
       },
     };
+
+    if(student) {
+      const [firstName, familyName] = student.name.split(' ');
+      this.state.student = {
+        firstName,
+        familyName,
+        grade: 'grade ' + student.grade,
+      }
+    }
+
+    if(answers) {
+      this.state.answers = {...answers};
+    }
 
     autoBind(this);
 
@@ -64,9 +78,10 @@ LoginOrRegister.propTypes = {
 
 // Function passed in to `connect` to subscribe to Redux store updates.
 // Any time it updates, mapStateToProps is called.
-function mapStateToProps({user}) {
+function mapStateToProps({user, topic}) {
   return {
-    user
+    user,
+    exam: topic.exam
   };
 }
 
