@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames/bind';
 
@@ -27,7 +28,7 @@ class AssessmentComponent extends Component {
         <div className={cx('container')}>
           List comes here
           <div>
-          { exams && exams.map(exam => <div key={exam._id}>{exam.student.name + ' ' + exam.student.grade}</div>)}
+          { exams && exams.map(exam => <div><Link to={"/assessment/" + exam._id} key={exam._id}>{exam.student.name + ' ' + exam.student.grade}</Link></div>)}
           </div>
         </div>
       </div>
