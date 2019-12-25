@@ -9,7 +9,6 @@ import autoBind from 'react-autobind';
 import MarkingInput from './MarkingInput';
 import Select from '../Select';
 
-import hourGlassSvg from '../../images/hourglass.svg';
 import styles from '../../css/components/assessment';
 
 const cx = classNames.bind(styles);
@@ -22,13 +21,13 @@ class AssessmentComponent extends Component {
   }
 
   render() {
-    const { exams } = this.props;
+    const { exams, handleClick } = this.props;
     return (
       <div className={cx('assessment')}>
         <div className={cx('container')}>
           List comes here
           <div>
-          { exams && exams.map(exam => <div><Link to={"/assessment/" + exam._id} key={exam._id}>{exam.student.name + ' ' + exam.student.grade}</Link></div>)}
+          { exams && exams.map(exam => <div><div onClick={handleClick(exam)}>{exam.student.name + ' ' + exam.student.grade}</div></div>)}
           </div>
         </div>
       </div>

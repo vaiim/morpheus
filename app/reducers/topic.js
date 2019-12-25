@@ -9,6 +9,10 @@ const topics = (
     case types.REQUEST_SUCCESS:
       if (action.data) return {...state, [action.data.topic]: action.data.data};
       return state;
+
+    case types.EXAM_LOADED:
+      if (action.data) return {...state, exam: action.data};
+      return state;
     default:
       return state;
   }

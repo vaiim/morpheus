@@ -31,7 +31,7 @@ export default (store) => {
   };
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Main} onEnter={requireAuth}  fetchData={fetchExamData} />
+      <IndexRoute component={Main} onEnter={requireAuth} fetchData={fetchExamData} />
       <Route path="login" component={LoginOrRegister} onEnter={redirectAuth} />
       <Route path="dashboard" component={Dashboard} onEnter={requireAuth} />
       <Route path="assessment/:examId" component={Assessment} onEnter={requireAuth} fetchData={fetchExamData} />

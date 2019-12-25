@@ -51,6 +51,15 @@ export function typing(text) {
   };
 }
 
+export function examLoaded(exam) {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: types.EXAM_LOADED,
+      data: exam
+    })
+  }
+}
+
 // This action creator returns a function,
 // which will get executed by Redux-Thunk middleware
 // This function does not need to be pure, and thus allowed
