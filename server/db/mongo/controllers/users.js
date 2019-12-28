@@ -268,7 +268,7 @@ async function createPDF(user, student, testResult) {
          Subject: '', // the subject of the document
      }
   });
-  doc.pipe(fs.createWriteStream('out.pdf'));
+  doc.pipe(fs.createWriteStream(`./public/assets/${testResult._id}.pdf`));
   // doc.moveTo(0, 20)                             // set the current point
   //  .lineTo(100, 160)                            // draw a line
   //  .quadraticCurveTo(130, 200, 150, 120)        // draw a quadratic curve
@@ -387,6 +387,8 @@ async function createPDF(user, student, testResult) {
   doc.text(user.branch.location, X_START - 20, contextY);
 
   doc.end();
+
+  return testResult._id;
 }
 
 export function pdf(req, res) {
@@ -438,8 +440,8 @@ export async function submitExam(req, res) {
   student.grade = student.grade.split(' ')[1];
   const testResult = new TestResult({student, answers, branchName: user.branch.name});
   await testResult.save();
-  createPDF(user, student, testResult)
-  res.sendStatus(200);
+  const pdf = await createPDF(user, student, testResult);
+  res.json({pdf: testResult._id, result: 'ok'});
 }
 
 /**
