@@ -12,11 +12,11 @@ export default () => {
       method: 'GET',
       url: '/results/' + examId
     }),
-    login: ({ email, password }) => client.request({
+    login: ({ username, password }) => client.request({
       method: 'POST',
       url: '/sessions',
       data: {
-        email,
+        username,
         password
       }
     }),

@@ -60,6 +60,20 @@ UserSchema.methods = {
  * Statics
  */
 
-UserSchema.statics = {};
+UserSchema.statics = {
+  wash: function(obj) {
+    if(typeof(obj) === 'string') {
+      obj = JSON.parse(obj);
+    }
+    const user = {branch:{}};
+    user.name = obj.username;
+    user.username = obj.username;
+    user.email = obj.email;
+    if(!obj.branch) return user;
+    user.branch.location = obj.branch.address;
+    user.branch.name = obj.branch.branchName;
+    return user;
+  }
+};
 
 export default mongoose.model('User', UserSchema);

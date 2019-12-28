@@ -426,16 +426,14 @@ export async function exam(req, res) {
 }
 
 export async function examList(req, res) {
-  const userId = req.session && req.session.passport && req.session.passport.user;
-  const user = await User.findOne({_id: userId});
+  const user = req.user;
   const results = await TestResult.find({branchName: user.branch.name}).limit(10).sort({_id: -1}).lean();
   res.json(results);
 }
 
 export async function submitExam(req, res) {
   const { student, answers } = req.body;
-  const userId = req.session && req.session.passport && req.session.passport.user;
-  const user = await User.findOne({_id: userId});
+  const user = req.user;
   student.name = student.firstName + ' ' + student.familyName;
   student.grade = student.grade.split(' ')[1];
   const testResult = new TestResult({student, answers, branchName: user.branch.name});
