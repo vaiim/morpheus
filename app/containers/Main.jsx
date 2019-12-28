@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames/bind';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { browserHistory } from 'react-router';
 import autoBind from 'react-autobind';
 
@@ -35,7 +36,13 @@ class Main extends Component {
   render() {
     const { user, exams } = this.props;
 
-    return <AssessmentList exams={exams} handleClick={this.examClicked} />;
+    return <div>
+      <Link
+        className={cx('button')}
+        to="/assessment"
+      >Create</Link>
+      <AssessmentList exams={exams} handleClick={this.examClicked} />
+    </div>;
   }
 }
 
