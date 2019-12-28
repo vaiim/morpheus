@@ -247,7 +247,7 @@ async function createExamData(testResult) {
   return data;
 }
 
-async function createPDF(student, testResult) {
+async function createPDF(user, student, testResult) {
   const result = await createExamData(testResult);
   const X_START = 65;
   const X_END = 450;
@@ -380,11 +380,11 @@ async function createPDF(student, testResult) {
   doc.text('Thank you once again for taking part in James An College Assessment Test.', X_START, contextY);
 
   contextY += 20;
-  doc.text('JAC COM Victoria James An College', X_START, contextY);
+  doc.text(user.branch.name + ' Victoria James An College', X_START, contextY);
 
   contextY += 33;
   doc.fillColor('white');
-  doc.text('16C/77-79 Ashley St. Braybrook VIC 3019', X_START - 20, contextY);
+  doc.text(user.branch.location, X_START - 20, contextY);
 
   doc.end();
 }
@@ -438,7 +438,7 @@ export async function submitExam(req, res) {
   student.grade = student.grade.split(' ')[1];
   const testResult = new TestResult({student, answers, branchName: user.branch.name});
   await testResult.save();
-  createPDF(student, testResult)
+  createPDF(user, student, testResult)
   res.sendStatus(200);
 }
 
