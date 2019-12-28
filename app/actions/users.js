@@ -104,6 +104,7 @@ export function logOut() {
     return authService().logOut()
       .then((response) => {
           dispatch(logoutSuccess());
+          dispatch(push('/login'));
       })
       .catch((err) => {
         dispatch(logoutError());

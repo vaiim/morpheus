@@ -20,7 +20,7 @@ const cx = classNames.bind(styles);
 const App = ({ children }) => {
   return (
     <div className={cx('app')}>
-      {/*<Navigation />*/}
+      <Navigation />
       <Message />
       {children}
     </div>
