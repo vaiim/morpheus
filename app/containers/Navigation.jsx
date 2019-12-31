@@ -6,26 +6,22 @@ import classNames from 'classnames/bind';
 import { logOut } from '../actions/users';
 import styles from '../css/components/navigation';
 import LOGO_JAC from '../images/jac_1.png';
+import LOGO_JAC_RED from '../images/jac_logo_red.jpg';
 
 const cx = classNames.bind(styles);
 
 const Navigation = ({ user, logOut }) => {
     return (
       <nav className={cx('navigation')} role="navigation">
-        <Link
-          to="/"
-          className={cx('item', 'logo')}
-          activeClassName={cx('active')}>
-          <img src={LOGO_JAC} style={{width:'150px'}} />
-        </Link>
-          { user.authenticated &&
-            <Link
-              onClick={logOut}
-              className={cx('item')} to="/">Logout
-            </Link>
-          }
+        <span className={cx('title')}>James An College Assessment Test</span>
         {/*<Link className={cx('item')} to="/dashboard">Dashboard</Link>*/}
         {/*<Link to="/about" className={cx('item')} activeClassName={cx('active')}>About</Link>*/}
+        <Link
+          to="/"
+          className={cx('logo')}
+          activeClassName={cx('active')}>
+          <img src={LOGO_JAC_RED} style={{width:'200px'}} />
+        </Link>
       </nav>
     );
 };

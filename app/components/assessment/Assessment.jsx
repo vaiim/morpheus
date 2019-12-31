@@ -45,7 +45,7 @@ class AssessmentComponent extends Component {
 
   getField(index, data, refs, nextRefs) {
     return <div style={{width:'100%', display: 'flex'}} key={data.getName()}>
-              <div style={{width:'20px'}}>
+              <div className={cx('marking-order')}>
                 { index + 1 }
               </div>
               {refs && <MarkingInput data={data} link={refs[index]} callback={this.inputChanged(index, refs, nextRefs)} />}
@@ -67,10 +67,9 @@ class AssessmentComponent extends Component {
         className={cx('assessment')}
       >
         <div className={cx('container')}>
-          <img className={cx('loading')} alt="loading" src={hourGlassSvg} />
           <div className={cx('email-container')}>
             <form onSubmit={submit}>
-              First Name
+              <span className={cx('label')}>First Name :</span>
               <input
                 className={cx('input')}
                 type="text"
@@ -78,7 +77,7 @@ class AssessmentComponent extends Component {
                 onChange={student.access('firstName').attach()}
                 placeholder="First Name"
               />
-              Family Name
+              <span className={cx('label-second')}>Surname : </span>
               <input
                 className={cx('input')}
                 type="text"
@@ -86,29 +85,52 @@ class AssessmentComponent extends Component {
                 onChange={student.access('familyName').attach()}
                 placeholder="Family Name"
               />
+              <br/>
               Grade
               <Select
-                height={'3rem'}
+                width="180px"
+                height={'30px'}
                 placeholder="선택해 주세요" 
                 data={student.access('grade')}
                 options={years}
               />
-              <input
-                className={cx('button')}
-                type="submit"
-                value={'Submit'} />
+              <br />
+              <br />
+              <div className={cx('container')}>
+                <div className={cx('answers-section')}>
+                  <div className={cx('answers-section-title')} style={{'background-color': 'red'}}>
+                    English
+                  </div>
+                  <div className={cx('answers')}>
+                  { this.createFields(answers.access('english'), this.links['english'], this.links['math']).map((x, i) => <div key={i}>{x}</div>) }
+                  </div>
+                </div>
+                <div className={cx('answers-section')}>
+                  <div className={cx('answers-section-title')} style={{'background-color': 'green'}}>
+                    Mathematics
+                  </div>
+                  <div className={cx('answers')}>
+                  { this.createFields(answers.access('math'), this.links['math'], this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
+                  </div>
+                </div>
+                <div className={cx('answers-section')}>
+                  <div className={cx('answers-section-title')} style={{'background-color': 'orange'}}>
+                    General Abilities
+                  </div>
+                  <div className={cx('answers')}>
+                  { this.createFields(answers.access('general'), this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
+                  </div>
+                </div>
+              </div>
+              <br />
+              <br />
+              <div className={cx('button-area')}>
+                <input
+                  className={cx('button')}
+                  type="submit"
+                  value={'Submit'} />
+              </div>
             </form>
-          </div>
-        </div>
-        <div className={cx('container')}>
-          <div className={cx('answers-section')}>
-            { this.createFields(answers.access('english'), this.links['english'], this.links['math']).map((x, i) => <div key={i}>{x}</div>) }
-          </div>
-          <div className={cx('answers-section')}>
-            { this.createFields(answers.access('math'), this.links['math'], this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
-          </div>
-          <div className={cx('answers-section')}>
-            { this.createFields(answers.access('general'), this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
           </div>
         </div>
       </div>

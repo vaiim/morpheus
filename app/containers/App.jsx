@@ -21,7 +21,6 @@ const App = ({ children }) => {
   return (
     <div className={cx('app')}>
       <Navigation />
-      <Message />
       {children}
     </div>
   );

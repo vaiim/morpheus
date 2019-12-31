@@ -9,9 +9,6 @@ import Select from '../components/Select';
 import Assessment from '../components/assessment/Assessment';
 import { DataBinder } from '../utils/bindStates';
 import { manualLogin, signUp, toggleLoginMode, examSubmit } from '../actions/users';
-import styles from '../css/components/assessment';
-
-const cx = classNames.bind(styles);
 
 class LoginOrRegister extends Component {
   constructor(props) {

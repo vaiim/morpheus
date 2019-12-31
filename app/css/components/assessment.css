@@ -5,27 +5,47 @@
 @import '../common/input';
 
 .assessment {
-  width: 1024px;
-  margin: 0 auto;
-  background-color: var(--colorAthensGray);
-  border: 2px solid var(--colorMercury);
-  border-radius: var(--globalRadius);
+  margin: 50px auto;
 }
 
 .container {
-  display: flex
+  display: flex;
+  justify-content: space-between;
 }
 
 .answers-section {
   width: 33%;
-  border: 1px solid;
+  background-color: white;
+  padding: 0;
+}
+
+.answers {
+  width: 100%;
+  padding: 10px 0;
   display: flex;
+}
+
+.answers-section-title {
+  width: 100%;
+  padding: 5px;
+  color: white;
+  text-align: center;
+}
+
+.answer {
+  margin: 0;
+  padding: 0;
 }
 
 .waiting {
   .loading {
     display: block;
   }
+}
+
+.label-second {
+  margin-left: 50px;
+  display: inline-block;
 }
 
 .alternative {
@@ -48,8 +68,8 @@
 }
 
 .email-container {
+  width: 100%;
   padding: 16px 12px;
-  border-bottom: 2px solid var(--colorMercury);
 }
 
 .google-container {
@@ -68,13 +88,33 @@
   @apply --input;
 }
 
+.input-small {
+  @apply --smallInput;
+}
+
+.marking-order {
+  width: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  text-align: right;
+  margin-right: 3px;
+}
+
 .message {
   color: var(--colorCrimson);
   font-size: var(--fontSmall);
 }
 
+.button-area {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .button {
   @apply --greenButton;
+  width: 150px;
+  font-size: 15px;
+  display: inline-block;
 }
 
 .hint {

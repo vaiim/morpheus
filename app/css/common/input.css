@@ -6,12 +6,27 @@
   --input {
     @apply --normal;
     padding: 0.75rem 1rem;
-    border: 2px solid var(--colorLoblolly);
+    border: 1px solid var(--colorLoblolly);
     border-radius: 4px;
-    width: 100%;
+    width: 180px;
+    height: 30px;
+    margin-left: 10px;
 
     background-color: var(--colorWhite);
     color: var(--colorLimedSpruce);
     margin-bottom: 0.75rem;
+  }
+
+  --smallInput {
+    @apply --normal;
+    padding: 0.25rem 0.5rem;
+    border: 2px solid var(--colorLoblolly);
+    border-radius: 4px;
+    width: 40px;
+    height: 30px;
+
+    background-color: var(--colorWhite);
+    color: var(--colorLimedSpruce);
+    margin-bottom: 0.25rem;
   }
 }

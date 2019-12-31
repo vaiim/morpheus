@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { browserHistory } from 'react-router';
 import autoBind from 'react-autobind';
 
-import { manualLogin, signUp, toggleLoginMode, examSubmit } from '../actions/users';
+import { manualLogin, logOut, signUp, toggleLoginMode, examSubmit } from '../actions/users';
 import { authService } from '../services';
 import { examLoaded } from '../actions/topics';
 
@@ -34,9 +34,15 @@ class Main extends Component {
   }
 
   render() {
-    const { user, exams } = this.props;
+    const { user, exams, logOut } = this.props;
 
     return <div>
+      { user.authenticated &&
+        <Link
+          onClick={logOut}
+          className={cx('item')} to="/">Logout
+        </Link>
+      }
       <Link
         className={cx('button')}
         to="/assessment"
@@ -61,4 +67,4 @@ function mapStateToProps({user, topic}) {
 // Connects React component to the redux store
 // It does not modify the component class passed to it
 // Instead, it returns a new, connected component class, for you to use.
-export default connect(mapStateToProps, { examLoaded })(Main);
+export default connect(mapStateToProps, { examLoaded, logOut })(Main);

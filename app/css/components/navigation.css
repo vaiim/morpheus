@@ -3,6 +3,11 @@
 
 .navigation {
   padding: 0 28px;
+  position: relative;
+}
+
+.title {
+  font-size: 30px;
 }
 
 .item {
@@ -14,6 +19,9 @@
 
 .logo {
   font-size: var(--fontHuge);
+  position: absolute;
+  top: -25px;
+  right: 0;
 }
 
 .active {

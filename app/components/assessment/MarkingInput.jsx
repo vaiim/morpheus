@@ -21,8 +21,8 @@ const MarkingInputComponent = ({ data, link, callback, ...props }) => {
     }
   };
   return <input
-      style={{width:'40px', border: '1px solid'}}
-      className={cx('answer')}
+      style={{width:'30px', border: '1px solid'}}
+      className={cx('input-small', 'answer')}
       type="text"
       value={data.get()}
       onFocus={(event) => event.target.select()}
