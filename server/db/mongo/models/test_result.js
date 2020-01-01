@@ -17,6 +17,10 @@ const TestResultSchema = new mongoose.Schema({
   },
   branchName: String,
   version: String,
+  created: {
+    type: Date,
+    default: Date.now,
+  }
 });
 
 // Compiles the schema into a model, opening (or creating, if

@@ -37,17 +37,21 @@ class Main extends Component {
     const { user, exams, logOut } = this.props;
 
     return <div>
-      { user.authenticated &&
+      <div className={cx('main-button-area')}>
         <Link
-          onClick={logOut}
-          className={cx('item')} to="/">Logout
-        </Link>
-      }
-      <Link
-        className={cx('button')}
-        to="/assessment"
-      >Create</Link>
+          className={cx('button')}
+          to="/assessment"
+        >Create</Link>
+        { user.authenticated &&
+          <Link
+            onClick={logOut}
+            className={cx('item')} to="/">Logout
+          </Link>
+        }
+      </div>
+      <br />
       <AssessmentList exams={exams} handleClick={this.examClicked} />
+      <br />
     </div>;
   }
 }

@@ -20,9 +20,11 @@ body {
   height: 100%;
   font-weight: normal;
   font-smoothing: antialiased;
+  font-size: 20px;
 
-  width: 900px;
+  width: 1024px;
   margin: 0 auto;
+  margin-top: 10px;
   background-color: var(--colorAthensGray);
   border: 2px solid var(--colorMercury);
   border-radius: var(--globalRadius);

@@ -20,7 +20,7 @@ const Navigation = ({ user, logOut }) => {
           to="/"
           className={cx('logo')}
           activeClassName={cx('active')}>
-          <img src={LOGO_JAC_RED} style={{width:'200px'}} />
+          <img src={LOGO_JAC_RED} style={{width:'250px'}} />
         </Link>
       </nav>
     );
