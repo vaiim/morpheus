@@ -380,7 +380,7 @@ async function createPDF(user, student, testResult) {
   doc.text('Thank you once again for taking part in James An College Assessment Test.', X_START, contextY);
 
   contextY += 20;
-  doc.text(user.branch.name + ' Victoria James An College', X_START, contextY);
+  doc.text(user.branch.name + ' James An College', X_START, contextY);
 
   contextY += 33;
   doc.fillColor('white');
