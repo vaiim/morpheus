@@ -9,12 +9,13 @@ import Select from '../components/Select';
 import Assessment from '../components/assessment/Assessment';
 import { DataBinder } from '../utils/bindStates';
 import { manualLogin, signUp, toggleLoginMode, examSubmit } from '../actions/users';
+import { authService } from '../services';
 
 class LoginOrRegister extends Component {
   constructor(props) {
     super(props);
 
-    const { answers, student }= this.props.exam || {};
+    const { answers, student, _id }= this.props.exam || {};
     this.state = { 
       student: {},
       answers: {
@@ -22,7 +23,13 @@ class LoginOrRegister extends Component {
         math: [],
         general: [],
       },
+      pdfLink: null,
+      ref: null
     };
+
+    if(_id) {
+      this.state.ref = _id;
+    }
 
     if(student) {
       const [firstName, familyName] = student.name.split(' ');
@@ -42,11 +49,15 @@ class LoginOrRegister extends Component {
     this.dataBound = new DataBinder(this.state, {component: this});
   }
 
-  handleOnSubmit(event) {
+  async handleOnSubmit(event) {
     event.preventDefault();
-
-    const { examSubmit } = this.props;
-    examSubmit(this.state);
+    const res = await authService().examSubmit(this.state);
+    if(res.data && res.data.pdf) {
+      this.setState({pdfLink: res.data.pdf});
+    }
+    else {
+      //something wrong
+    }
   }
 
   getYears() {
@@ -62,7 +73,7 @@ class LoginOrRegister extends Component {
     const student = this.dataBound.access('student');
     const answers = this.dataBound.access('answers');
 
-    return <Assessment student={student} answers={answers} submit={this.handleOnSubmit} years={this.getYears()} />;
+    return <Assessment student={student} answers={answers} submit={this.handleOnSubmit} pdf={this.state.pdfLink} years={this.getYears()} />;
   }
 }
 

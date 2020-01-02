@@ -61,7 +61,7 @@ class AssessmentComponent extends Component {
   }
 
   render() {
-    const { student, answers, submit, years } = this.props;
+    const { student, answers, submit, years, pdf } = this.props;
     return (
       <div
         className={cx('assessment')}
@@ -126,10 +126,11 @@ class AssessmentComponent extends Component {
               <br />
               <br />
               <div className={cx('button-area')}>
-                <input
-                  className={cx('button')}
-                  type="submit"
-                  value={'Submit'} />
+                {!pdf && <input
+                          className={cx('button')}
+                          type="submit"
+                          value={'Submit'} />}
+                {pdf && <a href={"/assets/" + pdf + ".pdf"} target="_blank">Open PDF</a>}
               </div>
             </form>
           </div>
