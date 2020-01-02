@@ -84,7 +84,7 @@
 }
 
 .answer {
-  margin: 0;
+  margin-right: 5px;
   padding: 0;
 }
 
@@ -146,11 +146,13 @@
 .marking-field {
   width: 100%;
   display: flex;
-  justify-content: right;
+  justify-content: center;
+  margin: 10px 0;
 }
 
 .marking-order {
-  padding: 0 3px 0 10px;
+  width: 35px;
+  padding: 0 3px 0 5px;
   line-height: 30px;
   vertical-align: middle;
   text-align: right;
