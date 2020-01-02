@@ -12,6 +12,19 @@
 .container {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+}
+
+.container-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+}
+
+.answers-container {
+  display: flex;
+  justify-content: space-between;
+  width: 900px;
 }
 
 .list-container {
@@ -33,7 +46,6 @@
 .list-item {
   height: 40px;
   line-height: 40px;
-  border-bottom: 1px solid;
   cursor: pointer;
 }
 
@@ -56,11 +68,12 @@
   width: 100%;
   padding: 10px 0;
   display: flex;
+  justify-content: center;
 }
 
 .answers-section-title {
   width: 100%;
-  padding: 5px;
+  padding: 10px;
   color: white;
   text-align: center;
 }
@@ -102,7 +115,7 @@
 
 .email-container {
   width: 100%;
-  padding: 16px 12px;
+  padding: 16px 0;
 }
 
 .google-container {
@@ -125,12 +138,17 @@
   @apply --smallInput;
 }
 
+.marking-field {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
+
 .marking-order {
-  width: 30px;
+  padding: 0 3px 0 10px;
   line-height: 30px;
   vertical-align: middle;
   text-align: right;
-  margin-right: 3px;
 }
 
 .message {

@@ -44,7 +44,7 @@ class AssessmentComponent extends Component {
   }
 
   getField(index, data, refs, nextRefs) {
-    return <div style={{width:'100%', display: 'flex'}} key={data.getName()}>
+    return <div className={cx('marking-field')} key={data.getName()}>
               <div className={cx('marking-order')}>
                 { index + 1 }
               </div>
@@ -66,7 +66,6 @@ class AssessmentComponent extends Component {
       <div
         className={cx('assessment')}
       >
-        <div className={cx('container')}>
           <div className={cx('email-container')}>
             <form onSubmit={submit}>
               <span className={cx('label')}>First Name :</span>
@@ -96,29 +95,31 @@ class AssessmentComponent extends Component {
               />
               <br />
               <br />
-              <div className={cx('container')}>
-                <div className={cx('answers-section')}>
-                  <div className={cx('answers-section-title')} style={{'background-color': 'red'}}>
-                    English
+              <div className={cx('container-wrapper')}>
+                <div className={cx('answers-container')}>
+                  <div className={cx('answers-section')}>
+                    <div className={cx('answers-section-title')} style={{'backgroundColor': 'red'}}>
+                      English
+                    </div>
+                    <div className={cx('answers')}>
+                    { this.createFields(answers.access('english'), this.links['english'], this.links['math']).map((x, i) => <div key={i}>{x}</div>) }
+                    </div>
                   </div>
-                  <div className={cx('answers')}>
-                  { this.createFields(answers.access('english'), this.links['english'], this.links['math']).map((x, i) => <div key={i}>{x}</div>) }
+                  <div className={cx('answers-section')}>
+                    <div className={cx('answers-section-title')} style={{'backgroundColor': 'green'}}>
+                      Mathematics
+                    </div>
+                    <div className={cx('answers')}>
+                    { this.createFields(answers.access('math'), this.links['math'], this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
+                    </div>
                   </div>
-                </div>
-                <div className={cx('answers-section')}>
-                  <div className={cx('answers-section-title')} style={{'background-color': 'green'}}>
-                    Mathematics
-                  </div>
-                  <div className={cx('answers')}>
-                  { this.createFields(answers.access('math'), this.links['math'], this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
-                  </div>
-                </div>
-                <div className={cx('answers-section')}>
-                  <div className={cx('answers-section-title')} style={{'background-color': 'orange'}}>
-                    General Abilities
-                  </div>
-                  <div className={cx('answers')}>
-                  { this.createFields(answers.access('general'), this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
+                  <div className={cx('answers-section')}>
+                    <div className={cx('answers-section-title')} style={{'backgroundColor': 'orange'}}>
+                      General Abilities
+                    </div>
+                    <div className={cx('answers')}>
+                    { this.createFields(answers.access('general'), this.links['general']).map((x, i) => <div key={i}>{x}</div>) }
+                    </div>
                   </div>
                 </div>
               </div>
@@ -132,7 +133,6 @@ class AssessmentComponent extends Component {
               </div>
             </form>
           </div>
-        </div>
       </div>
     )
   }
