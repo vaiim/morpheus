@@ -434,12 +434,19 @@ export async function examList(req, res) {
 }
 
 export async function submitExam(req, res) {
-  const { student, answers } = req.body;
+  const { student, answers, ref } = req.body;
   const user = req.user;
   student.name = student.firstName + ' ' + student.familyName;
   student.grade = student.grade.split(' ')[1];
-  const testResult = new TestResult({student, answers, branchName: user.branch.name});
-  await testResult.save();
+  let testResult;
+  if(ref) {
+    await TestResult.update({_id: ref}, {$set:{student, answers}});
+    testResult = await TestResult.findOne({_id: ref});
+  }
+  else {
+    testResult = new TestResult({student, answers, branchName: user.branch.name});
+    await testResult.save();
+  }
   const pdf = await createPDF(user, student, testResult);
   res.json({pdf: testResult._id, result: 'ok'});
 }
