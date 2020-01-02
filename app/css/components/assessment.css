@@ -163,11 +163,18 @@
 
 .button-area {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .button {
   @apply --greenButton;
+  width: 150px;
+  font-size: 20px;
+  display: inline-block;
+}
+
+.button-back {
+  @apply --yellowButton;
   width: 150px;
   font-size: 20px;
   display: inline-block;

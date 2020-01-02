@@ -28,4 +28,16 @@
       border-color: var(--colorDarkerSalem);
     }
   }
+
+  --yellowButton {
+    @apply --button;
+    color: var(--colorWhite);
+    background: var(--colorLimedSpruce);
+    border-color: var(--colorLimedSpruce);
+
+    &:hover {
+      background: var(--colorDarkerLimedSpruce);
+      border-color: var(--colorDarkerLimedSpruce);
+    }
+  }
 }

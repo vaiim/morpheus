@@ -8,6 +8,7 @@
   --colorPunch:               #db4437;
   --colorLoblolly:            #c3c8ce;
   --colorLimedSpruce:         #333f48;
+  --colorDarkerLimedSpruce:   color(var(--colorLimedSpruce) blackness(+20%));
   --colorAthensGray:          #f5f5f6;
   --colorMercury:             #e3e3e3;
   --colorBombay:              #b4bac1;

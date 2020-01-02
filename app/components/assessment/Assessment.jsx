@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames/bind';
 
+import { Link } from 'react-router';
+
 import autoBind from 'react-autobind';
 
 import MarkingInput from './MarkingInput';
@@ -126,6 +128,9 @@ class AssessmentComponent extends Component {
               <br />
               <br />
               <div className={cx('button-area')}>
+                <Link className={cx('button-back')} to={'/'}>
+                  Back
+                </Link>
                 {!pdf && <input
                           className={cx('button')}
                           type="submit"
