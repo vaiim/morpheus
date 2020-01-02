@@ -9,6 +9,8 @@ import autoBind from 'react-autobind';
 import MarkingInput from './MarkingInput';
 import Select from '../Select';
 
+import LOGO_PDF from '../../images/pdf-logo.png';
+
 import styles from '../../css/components/assessment';
 
 const cx = classNames.bind(styles);
@@ -65,7 +67,7 @@ class AssessmentComponent extends Component {
             }
           </div>
           <div>
-            <div className={cx('list-header')} style={{width: '230px'}}>Registration Date</div>
+            <div className={cx('list-header')} style={{width: '200px'}}>Registration Date</div>
             { exams && exams.map((exam, i) => (
                 <div
                   className={cx('list-item', {hover: i === this.state.mouseIndex})}
@@ -76,6 +78,19 @@ class AssessmentComponent extends Component {
                 >
                   {exam.created && String(exam.created).split('T')[0]}
                 </div>
+              ))
+            }
+          </div>
+          <div>
+            <div className={cx('list-header')} style={{width: '50px', borderBottom: 'none'}}></div>
+            { exams && exams.map((exam, i) => ( <div key={exam._id} className={cx('list-item', 'pdf-item')}>
+                <a
+                  href={'/assets/' + exam._id + '.pdf'}
+                  target="_blank"
+                >
+                  <img src={LOGO_PDF} style={{height:'20px'}} />
+                </a>
+              </div>
               ))
             }
           </div>

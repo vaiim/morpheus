@@ -29,3 +29,4 @@ export const LOGOUT_SUCCESS_USER = 'LOGOUT_SUCCESS_USER';
 export const LOGOUT_ERROR_USER = 'LOGOUT_ERROR_USER';
 
 export const EXAM_LOADED = 'EXAM_LOADED';
+export const EXAM_NEW = 'EXAM_NEW';

@@ -9,7 +9,7 @@ import autoBind from 'react-autobind';
 
 import { manualLogin, logOut, signUp, toggleLoginMode, examSubmit } from '../actions/users';
 import { authService } from '../services';
-import { examLoaded } from '../actions/topics';
+import { examLoaded, examNew } from '../actions/topics';
 
 import AssessmentList from '../components/assessment/AssessmentList';
 import styles from '../css/components/assessment';
@@ -21,6 +21,12 @@ class Main extends Component {
     super(props);
 
     autoBind(this);
+  }
+
+  createClicked() {
+    const { examNew } = this.props;
+    examNew();
+    browserHistory.push('/assessment');
   }
 
   examClicked(item) {
@@ -38,10 +44,10 @@ class Main extends Component {
 
     return <div>
       <div className={cx('main-button-area')}>
-        <Link
+        <a
           className={cx('button')}
-          to="/assessment"
-        >Create</Link>
+          onClick={this.createClicked}
+        >Create</a>
         { user.authenticated &&
           <Link
             onClick={logOut}
@@ -71,4 +77,4 @@ function mapStateToProps({user, topic}) {
 // Connects React component to the redux store
 // It does not modify the component class passed to it
 // Instead, it returns a new, connected component class, for you to use.
-export default connect(mapStateToProps, { examLoaded, logOut })(Main);
+export default connect(mapStateToProps, { examLoaded, examNew, logOut })(Main);

@@ -60,6 +60,14 @@ export function examLoaded(exam) {
   }
 }
 
+export function examNew() {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: types.EXAM_NEW
+    })
+  }
+}
+
 // This action creator returns a function,
 // which will get executed by Redux-Thunk middleware
 // This function does not need to be pure, and thus allowed

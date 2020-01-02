@@ -13,6 +13,8 @@ const topics = (
     case types.EXAM_LOADED:
       if (action.data) return {...state, exam: action.data};
       return state;
+    case types.EXAM_NEW:
+      return {...state, exam: null};
     default:
       return state;
   }
