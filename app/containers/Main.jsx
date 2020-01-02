@@ -19,7 +19,7 @@ const cx = classNames.bind(styles);
 class Main extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {loading: false};
     autoBind(this);
   }
 
@@ -31,6 +31,8 @@ class Main extends Component {
 
   examClicked(item) {
     return async event => {
+      if(this.state.loading) return;
+      this.setState({loading: true});
       const examId = item._id;
       const res = await authService().getExam(examId);
       const { examLoaded } = this.props;
@@ -56,7 +58,7 @@ class Main extends Component {
         }
       </div>
       <br />
-      <AssessmentList exams={exams} handleClick={this.examClicked} />
+      <AssessmentList exams={exams} handleClick={this.examClicked} loading={this.state.loading} />
       <br />
     </div>;
   }

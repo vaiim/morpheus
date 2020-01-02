@@ -24,10 +24,12 @@ class AssessmentComponent extends Component {
   }
 
   mouseOver(index) {
+    if(this.props.loading) return;
     return event => this.setState({mouseIndex: index});
   }
 
   mouseOut(index) {
+    if(this.props.loading) return;
     return event => this.setState({mouseIndex: -1});
   }
 
