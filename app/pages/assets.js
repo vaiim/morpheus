@@ -11,7 +11,7 @@ const metaAssets = () => {
     { charset: 'utf-8' },
     // Meta descriptions are commonly used on search engine result pages to
     // display preview snippets for a given page.
-    { name: 'description', content: 'Your One-Stop solution for a full-stack universal Redux App' },
+    { name: 'description', content: 'James An College Assessment Test' },
     // Setting IE=edge tells Internet Explorer to use the latest engine to
     //  render the page and execute Javascript
     { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
@@ -30,7 +30,7 @@ const metaAssets = () => {
     // Add to homescreen for Safari on IOS
     { name: 'apple-mobile-web-app-capable', content: 'yes' },
     { name: 'apple-mobile-web-app-status-bar-style', content: 'black' },
-    { name: 'apple-mobile-web-app-title', content: 'reactGo' },
+    { name: 'apple-mobile-web-app-title', content: 'JAC' },
     // Tile icon for Win8 (144x144 + tile color)
     { name: 'msapplication-TileImage', content: msFavicon },
     { name: 'msapplication-TileColor', content: '#3372DF' }
@@ -40,10 +40,10 @@ const metaAssets = () => {
 const linkAssets = () => {
   const links = [
     // Add to homescreen for Chrome on Android
-    { rel: 'icon', href: favicon },
-    { rel: 'icon', sizes: '192x192', href: chromeFavicon },
+    // { rel: 'icon', href: favicon },
+    // { rel: 'icon', sizes: '192x192', href: chromeFavicon },
     // Add to homescreen for Safari on IOS
-    { rel: 'apple-touch-icon', sizes: '152x152', href: appleFavicon }
+    // { rel: 'apple-touch-icon', sizes: '152x152', href: appleFavicon }
     // SEO: If your mobile URL is different from the desktop URL,
     // add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones
     // { 'rel': 'canonical', 'href': 'http://www.example.com/' }
@@ -52,6 +52,6 @@ const linkAssets = () => {
   return links;
 };
 
-export const title = 'reactGo - just ship it';
+export const title = 'JAC';
 export const meta = metaAssets();
 export const link = linkAssets();
