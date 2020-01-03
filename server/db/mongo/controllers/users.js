@@ -429,6 +429,7 @@ export async function exam(req, res) {
 
 export async function examList(req, res) {
   const user = req.user;
+  if(!user) return res.json([]);
   const results = await TestResult.find({branchName: user.branch.name}).limit(10).sort({_id: -1}).lean();
   res.json(results);
 }
