@@ -6,10 +6,8 @@
 
 .login {
   width: 420px;
-  margin: 0 auto;
-  background-color: var(--colorAthensGray);
-  border: 2px solid var(--colorMercury);
-  border-radius: var(--globalRadius);
+  margin: 50px auto 150px;
+  font-size: 20px;
 }
 
 .waiting {
@@ -39,7 +37,6 @@
 
 .email-container {
   padding: 16px 12px;
-  border-bottom: 2px solid var(--colorMercury);
 }
 
 .google-container {
@@ -55,7 +52,7 @@
 }
 
 .input {
-  @apply --input;
+  @apply --largeInput;
 }
 
 .message {
@@ -65,6 +62,7 @@
 
 .button {
   @apply --greenButton;
+  font-size: 20px;
 }
 
 .hint {

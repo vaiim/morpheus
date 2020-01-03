@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 const Navigation = ({ user, logOut }) => {
     return (
       <nav className={cx('navigation')} role="navigation">
-        <span className={cx('title')}>James An College Assessment Test</span>
+        <div className={cx('title')}>JAC Assessment Test</div>
         {/*<Link className={cx('item')} to="/dashboard">Dashboard</Link>*/}
         {/*<Link to="/about" className={cx('item')} activeClassName={cx('active')}>About</Link>*/}
         <Link

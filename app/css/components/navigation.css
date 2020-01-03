@@ -7,7 +7,10 @@
 }
 
 .title {
-  font-size: 40px;
+  @apply --heading;
+  display: inline-block;
+  font-size: 55px;
+  margin: 20px 0 0 0px;
 }
 
 .item {

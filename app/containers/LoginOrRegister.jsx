@@ -49,13 +49,13 @@ class LoginOrRegister extends Component {
                 className={cx('input')}
                 type="text"
                 ref="username"
-               placeholder="username"
+               placeholder="POS ID"
               />
               <input
                 className={cx('input')}
                 type="password"
                ref="password"
-                placeholder="password"
+                placeholder="Password"
               />
               <p
                 className={cx('message', {
