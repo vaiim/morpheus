@@ -12,12 +12,12 @@ class Assessment extends Component {
   }
 
   pageTitle = () => {
-    return 'Assessment | reactGo';
+    return 'Assessment | JAC';
   };
 
   pageMeta = () => {
     return [
-      { name: 'description', content: 'A reactGo example of a Assessment page' }
+      { name: 'description', content: 'JAC' }
     ];
   };
 

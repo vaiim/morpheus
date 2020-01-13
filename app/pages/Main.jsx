@@ -12,12 +12,12 @@ class Main extends Component {
   }
 
   pageTitle = () => {
-    return 'Main | reactGo';
+    return 'Main | JAC';
   };
 
   pageMeta = () => {
     return [
-      { name: 'description', content: 'A reactGo example of a Main page' }
+      { name: 'description', content: 'JAC' }
     ];
   };
 
