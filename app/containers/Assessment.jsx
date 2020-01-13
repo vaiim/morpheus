@@ -24,7 +24,8 @@ class LoginOrRegister extends Component {
         general: [],
       },
       pdfLink: null,
-      ref: null
+      ref: null,
+      waiting: false,
     };
 
     if(_id) {
@@ -51,9 +52,12 @@ class LoginOrRegister extends Component {
 
   async handleOnSubmit(event) {
     event.preventDefault();
+    if(this.state.waiting) return;
+    
+    this.setState({waiting: true});
     const res = await authService().examSubmit(this.state);
     if(res.data && res.data.pdf) {
-      this.setState({pdfLink: res.data.pdf});
+      this.setState({pdfLink: res.data.pdf, waiting: false});
     }
     else {
       //something wrong
@@ -73,7 +77,13 @@ class LoginOrRegister extends Component {
     const student = this.dataBound.access('student');
     const answers = this.dataBound.access('answers');
 
-    return <Assessment student={student} answers={answers} submit={this.handleOnSubmit} pdf={this.state.pdfLink} years={this.getYears()} />;
+    return <Assessment 
+            student={student} 
+            answers={answers} 
+            submit={this.handleOnSubmit}
+            submitText={this.state.waiting? 'Waiting...' : 'Submit'}
+            pdf={this.state.pdfLink} 
+            years={this.getYears()} />;
   }
 }
 
