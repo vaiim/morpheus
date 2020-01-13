@@ -50,9 +50,19 @@ class LoginOrRegister extends Component {
     this.dataBound = new DataBinder(this.state, {component: this});
   }
 
+  checkUserInput() {
+    const { student } = this.state;
+    return student.firstName && student.familyName && student.grade;
+  }
+
   async handleOnSubmit(event) {
     event.preventDefault();
     if(this.state.waiting) return;
+
+    if(!this.checkUserInput()) {
+      alert('Student information missing.');
+      return;
+    }
     
     this.setState({waiting: true});
     const res = await authService().examSubmit(this.state);
