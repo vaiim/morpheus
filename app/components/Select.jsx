@@ -28,6 +28,7 @@ const SelectComponent = ({ height='100%', width='100%', placeholder, data, optio
             onChange={pair => data.attach('direct')(pair.value)}
             options={options.map(x => ({value:x, label:x}))}
             placeholder={placeholder}
+            isSearchable={false}
             {...props}
           />
 };
