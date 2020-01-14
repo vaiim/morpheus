@@ -37,7 +37,7 @@ class LoginOrRegister extends Component {
       this.state.student = {
         firstName,
         familyName,
-        grade: 'grade ' + student.grade,
+        grade: 'Year ' + student.grade,
       }
     }
 
@@ -63,7 +63,7 @@ class LoginOrRegister extends Component {
       alert('Student information missing.');
       return;
     }
-    
+
     this.setState({waiting: true});
     const res = await authService().examSubmit(this.state);
     if(res.data && res.data.pdf) {
@@ -75,7 +75,7 @@ class LoginOrRegister extends Component {
   }
 
   getYears() {
-    const years = ['Kinder'];
+    const years = [];
     for(let i=1; i<=12; i++) {
       years.push('Year ' + i);
     }
