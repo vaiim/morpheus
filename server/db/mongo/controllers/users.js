@@ -239,9 +239,9 @@ async function createExamData(testResult) {
       data[title][i].correct = answers[i] === data[title][i].answer;
       count += data[title][i].correct;
     }
-    data.scores[title] = [count / 20 * 100, reference.average];
+    data.scores[title] = [parseInt(count * 5), reference.average];
     data.counts[title] = count;
-    total += count / 20 * 100;
+    total += parseInt(count * 5);
   }
   data.total = total / Object.keys(data.scores).length;
   return data;
