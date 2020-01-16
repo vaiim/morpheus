@@ -133,7 +133,7 @@ function drawTable(doc, title, data, x, y) {
 
   }
   const count = data.map(x => x.correct).reduce((a, sum) => a + sum, 0);
-  const average = count / data.length * 100
+  const average = parseInt(count * 5);
   doc.fontSize(11);
   doc.text(`Score : ${count}/20 =`, x + 30, y+222, { 
     width: 125,
