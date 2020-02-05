@@ -19,7 +19,8 @@ const cx = classNames.bind(styles);
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {loading: false};
+    const { exams } = this.props;
+    this.state = { exams, loading: false, keyword: ''};
     autoBind(this);
   }
 
@@ -41,15 +42,35 @@ class Main extends Component {
     }
   }
 
-  render() {
-    const { user, exams, logOut } = this.props;
+  keywordTyped(event) {
+    const s = event.target.value;
+    this.setState({keyword: s});
+  }
 
+  async checkKeyword(event) {
+    const s = event.target.value;
+    if (event.key === 'Enter') {
+      const res = await authService().searchList(s.replace(/[^a-z]/gi, ' ').replace(/\s+/gi, ' ').trim());
+      this.setState({exams: res.data});
+    }
+  }
+
+  render() {
+    const { user, logOut } = this.props;
     return <div>
       <div className={cx('main-button-area')}>
         <a
           className={cx('button')}
           onClick={this.createClicked}
         >Create</a>
+        <input
+          className={cx('input')}
+          type="text"
+          value={this.state.keyword}
+          onChange={this.keywordTyped}
+          onKeyPress={this.checkKeyword}
+          placeholder="First Name"
+        />
         { user.authenticated &&
           <Link
             onClick={logOut}
@@ -58,7 +79,7 @@ class Main extends Component {
         }
       </div>
       <br />
-      <AssessmentList exams={exams} handleClick={this.examClicked} loading={this.state.loading} />
+      <AssessmentList exams={this.state.exams} handleClick={this.examClicked} loading={this.state.loading} />
       <br />
     </div>;
   }

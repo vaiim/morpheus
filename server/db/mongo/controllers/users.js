@@ -434,6 +434,14 @@ export async function examList(req, res) {
   res.json(results);
 }
 
+export async function searchExam(req, res) {
+  const user = req.user;
+  const keyword = req.params.keyword;
+  if(!user) return res.json([]);
+  const results = await TestResult.find({branchName: user.branch.name, 'student.name': {$regex: keyword, "$options": "i"}}).sort({_id: -1}).lean();
+  res.json(results);
+}
+
 export async function submitExam(req, res) {
   const { student, answers, ref } = req.body;
   const user = req.user;
@@ -484,5 +492,6 @@ export default {
   signUp,
   exam,
   submitExam,
+  searchExam,
   examList
 };

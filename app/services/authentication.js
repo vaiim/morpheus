@@ -8,6 +8,10 @@ export default () => {
       method: 'GET',
       url: '/results'
     }),
+    searchList: (keyword) => client.request({
+      method: 'GET',
+      url: '/search/' + keyword
+    }),
     getExam: (examId) => client.request({
       method: 'GET',
       url: '/results/' + examId

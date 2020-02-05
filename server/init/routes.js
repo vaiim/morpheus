@@ -15,6 +15,7 @@ export default (app) => {
   // user routes
   if (usersController) {
     app.get('/pdf', usersController.pdf);
+    app.get('/search/:keyword', usersController.searchExam);
     app.get('/results/:examId', usersController.exam);
     app.get('/results', usersController.examList);
     app.post('/sessions', usersController.login);
