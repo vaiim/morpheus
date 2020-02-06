@@ -10,6 +10,7 @@ import autoBind from 'react-autobind';
 import { manualLogin, logOut, signUp, toggleLoginMode, examSubmit } from '../actions/users';
 import { authService } from '../services';
 import { examLoaded, examNew } from '../actions/topics';
+import XBUTTON from '../images/x-button.png';
 
 import AssessmentList from '../components/assessment/AssessmentList';
 import styles from '../css/components/assessment';
@@ -49,28 +50,42 @@ class Main extends Component {
 
   async checkKeyword(event) {
     const s = event.target.value;
+    const keyword = s.replace(/[^a-z]/gi, ' ').replace(/\s+/gi, ' ').trim();
     if (event.key === 'Enter') {
-      const res = await authService().searchList(s.replace(/[^a-z]/gi, ' ').replace(/\s+/gi, ' ').trim());
-      this.setState({exams: res.data});
+      if(keyword) {
+        const res = await authService().searchList(keyword);
+        this.setState({exams: res.data});
+      }
+      else {
+        this.clearSearch();
+      }
     }
+  }
+
+  clearSearch() {
+    const { exams } = this.props;
+    this.setState({ exams, keyword: '' });
   }
 
   render() {
     const { user, logOut } = this.props;
     return <div>
       <div className={cx('main-button-area')}>
-        <a
-          className={cx('button')}
-          onClick={this.createClicked}
-        >Create</a>
-        <input
-          className={cx('input')}
-          type="text"
-          value={this.state.keyword}
-          onChange={this.keywordTyped}
-          onKeyPress={this.checkKeyword}
-          placeholder="First Name"
-        />
+        <div>
+          <a
+            className={cx('button')}
+            onClick={this.createClicked}
+          >Create</a>
+          <input
+            className={cx('input', 'search-input')}
+            type="text"
+            value={this.state.keyword}
+            onChange={this.keywordTyped}
+            onKeyPress={this.checkKeyword}
+            placeholder="Search Student"
+          />
+          <img src={XBUTTON} className={cx('x-button')} onClick={this.clearSearch}/>
+        </div>
         { user.authenticated &&
           <Link
             onClick={logOut}

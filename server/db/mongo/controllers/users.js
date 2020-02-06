@@ -437,6 +437,7 @@ export async function examList(req, res) {
 export async function searchExam(req, res) {
   const user = req.user;
   const keyword = req.params.keyword;
+  if(!keyword) return examList(req, res);
   if(!user) return res.json([]);
   const results = await TestResult.find({branchName: user.branch.name, 'student.name': {$regex: keyword, "$options": "i"}}).sort({_id: -1}).lean();
   res.json(results);
