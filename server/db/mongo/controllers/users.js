@@ -188,7 +188,14 @@ function drawStats(doc, data, x, y) {
     doc.rect(x, contextY+width, statWidth * d[1] / 100, width).fill('white').stroke();
     doc.rect(x, contextY+width, statWidth * d[1] / 100, width).stroke();
     doc.fillColor('black');
-    doc.text(d[0] + '%', x + statWidth * d[0] / 100 + 5, contextY + width/2 -5);
+    if(d[0] >= 90) {
+      doc.fillColor('white');
+      doc.text(d[0] + '%', x + statWidth * d[0] / 100 - 25, contextY + width/2 -5);
+      doc.fillColor('black');
+    }
+    else {
+      doc.text(d[0] + '%', x + statWidth * d[0] / 100 + 5, contextY + width/2 -5);
+    }
     doc.text(d[1] + '%', x + statWidth * d[1] / 100 + 5, contextY + width*1.5 -5);
     contextY += width * 2 + gap;
   }
@@ -430,7 +437,7 @@ export async function exam(req, res) {
 export async function examList(req, res) {
   const user = req.user;
   if(!user) return res.json([]);
-  const results = await TestResult.find({branchName: user.branch.name}).limit(30).sort({_id: -1}).lean();
+  const results = await TestResult.find({branchName: user.branch.name}).limit(10).sort({_id: -1}).lean();
   res.json(results);
 }
 
