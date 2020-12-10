@@ -87,7 +87,7 @@ class AssessmentComponent extends Component {
             <div className={cx('list-header')} style={{width: '50px', borderBottom: 'none'}}></div>
             { exams && exams.map((exam, i) => ( <div key={exam._id} className={cx('list-item', 'pdf-item')}>
                 <a
-                  href={'/assets/' + exam._id + '.pdf'}
+                  href={'/media/' + exam._id + '.pdf'}
                   target="_blank"
                 >
                   <img src={LOGO_PDF} style={{height:'20px'}} />

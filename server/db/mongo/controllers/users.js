@@ -275,7 +275,7 @@ async function createPDF(user, student, testResult) {
          Subject: '', // the subject of the document
      }
   });
-  doc.pipe(fs.createWriteStream(`./public/assets/${testResult._id}.pdf`));
+  doc.pipe(fs.createWriteStream(`./public/media/${testResult._id}.pdf`));
   // doc.moveTo(0, 20)                             // set the current point
   //  .lineTo(100, 160)                            // draw a line
   //  .quadraticCurveTo(130, 200, 150, 120)        // draw a quadratic curve

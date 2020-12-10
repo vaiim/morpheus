@@ -135,7 +135,7 @@ class AssessmentComponent extends Component {
                           className={cx('button')}
                           type="submit"
                           value={submitText} />}
-                {pdf && <a href={"/assets/" + pdf + ".pdf"} target="_blank">Open PDF</a>}
+                {pdf && <a href={"/media/" + pdf + ".pdf"} target="_blank">Open PDF</a>}
               </div>
             </form>
           </div>
