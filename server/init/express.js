@@ -29,6 +29,7 @@ export default (app) => {
   app.use(cookieParser());
 
   app.use(express.static(path.join(process.cwd(), 'public')));
+  app.use(express.static(path.join(process.cwd(), 'media')));
 
   // I am adding this here so that the Heroku deploy will work
   // Indicates the app is behind a front-facing proxy,
